@@ -1,0 +1,13 @@
+<result type="success" [title]="title" description="The activation email has been sent to your email address and is valid for 24 hours. Please log in to the email in time and click on the link in the email to activate the account.">
+  <ng-template #title>
+    <div class="title" style="font-size: 20px">
+      Account：registered at {{email}}
+    </div>
+  </ng-template>
+  <button (click)="msg.success('email')" nz-button nzSize="large" [nzType]="'primary'">
+    View mailbox
+  </button>
+  <button routerLink="/" nz-button nzSize="large">
+    Back to home
+  </button>
+</result>
