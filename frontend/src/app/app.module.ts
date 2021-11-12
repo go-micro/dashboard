@@ -34,7 +34,7 @@ const LANG_PROVIDES = [
 
 // #region JSON Schema form (using @delon/form)
 import { JsonSchemaModule } from '@shared';
-const FORM_MODULES = [ JsonSchemaModule ];
+const FORM_MODULES = [JsonSchemaModule];
 // #endregion
 
 
@@ -43,8 +43,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DefaultInterceptor } from '@core';
 import { SimpleInterceptor } from '@delon/auth';
 const INTERCEPTOR_PROVIDES = [
-  { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true},
-  { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true}
+  { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true }
 ];
 // #endregion
 
@@ -67,6 +67,12 @@ const APPINIT_PROVIDES = [
   }
 ];
 // #endregion
+
+import { environment } from '@env/environment';
+import { API_BASE_URL } from './shared/service-proxies/service-proxies';
+export function getRemoteServiceBaseUrl(): string {
+  return environment.api.baseUrl;
+}
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -98,7 +104,8 @@ import { STWidgetModule } from './shared/st-widget/st-widget.module';
   providers: [
     ...LANG_PROVIDES,
     ...INTERCEPTOR_PROVIDES,
-    ...APPINIT_PROVIDES
+    ...APPINIT_PROVIDES,
+    { provide: API_BASE_URL, useFactory: getRemoteServiceBaseUrl },
   ],
   bootstrap: [AppComponent]
 })

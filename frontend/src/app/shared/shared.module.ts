@@ -9,6 +9,8 @@ import { DelonFormModule } from '@delon/form';
 import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
 
+import { ServiceProxyModule } from './service-proxies/service-proxy.module';
+
 // #region third libs
 
 const THIRDMODULES: Array<Type<void>> = [];
@@ -31,6 +33,7 @@ const DIRECTIVES: Array<Type<void>> = [];
     AlainThemeModule.forChild(),
     DelonACLModule,
     DelonFormModule,
+    ServiceProxyModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs
@@ -49,13 +52,14 @@ const DIRECTIVES: Array<Type<void>> = [];
     AlainThemeModule,
     DelonACLModule,
     DelonFormModule,
+    ServiceProxyModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs
     ...THIRDMODULES,
     // your components
     ...COMPONENTS,
-    ...DIRECTIVES
+    ...DIRECTIVES,
   ]
 })
 export class SharedModule { }

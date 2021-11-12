@@ -11,7 +11,7 @@ export const environment = {
   production: false,
   useHash: true,
   api: {
-    baseUrl: './',
+    baseUrl: 'http://localhost:4000',
     refreshTokenEnabled: true,
     refreshTokenType: 'auth-refresh'
   },
