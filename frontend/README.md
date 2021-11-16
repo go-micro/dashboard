@@ -13,5 +13,5 @@ ng add ng-alain
 
 ```
 npm install
-node_modules/.bin/nswag run
+node_modules\.bin\nswag run
 ```

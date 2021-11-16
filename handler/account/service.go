@@ -16,8 +16,12 @@ func NewRouteRegistrar() route.Registrar {
 	return service{}
 }
 
-func (s service) RegisterRoute(router gin.IRoutes) {
-	router.POST("/api/login", s.Login)
+func (s service) RegisterAuthRoute(router gin.IRoutes) {
+	router.GET("/api/account/profile", s.Profile)
+}
+
+func (s service) RegisterNonAuthRoute(router gin.IRoutes) {
+	router.POST("/api/account/login", s.Login)
 }
 
 type loginRequest struct {
@@ -36,7 +40,7 @@ type loginResponse struct {
 // @Failure 400 	{object}	string
 // @Failure 401 	{object}	string
 // @Failure 500		{object}	string
-// @Router /api/login [post]
+// @Router /api/account/login [post]
 func (s *service) Login(ctx *gin.Context) {
 	var req loginRequest
 	if err := ctx.ShouldBindJSON(&req); nil != err {
@@ -60,4 +64,20 @@ func (s *service) Login(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(200, loginResponse{Token: signedToken})
+}
+
+type profileResponse struct {
+	Name string `json:"name"`
+}
+
+// @Security ApiKeyAuth
+// @Tags Account
+// @ID account_profile
+// @Success 200 	{object}	profileResponse	"success"
+// @Failure 400 	{object}	string
+// @Failure 401 	{object}	string
+// @Failure 500		{object}	string
+// @Router /api/account/profile [get]
+func (s *service) Profile(ctx *gin.Context) {
+	ctx.JSON(200, profileResponse{Name: config.GetAuthConfig().Username})
 }

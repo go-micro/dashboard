@@ -1,0 +1,61 @@
+<page-header [title]="name" [breadcrumb]="breadcrumb" [action]="action">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a href="#/dashboard">Dashboard</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+                <a href="#/services">Services</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>Service Detail</nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <button nz-button nzType="primary" style="float:right;" (click)="load()" [nzLoading]="loading">Refresh</button>
+    </ng-template>
+</page-header>
+
+<div *ngFor="let service of services">
+    <nz-table *ngIf="service.nodes" #basicTable [nzData]="service.nodes" [nzTitle]="service.version?service.version:'-'"
+        [nzFrontPagination]="false" [nzBordered]="true">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Address</th>
+                <th>Metadata</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data">
+                <td>{{data.id}}</td>
+                <td>{{data.address}}</td>
+                <td>{{data.metadata|json}}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <nz-table #endpointTable *ngIf="service.endpoints" [nzData]="service.endpoints" nzTitle="Endpoints"
+        [nzFrontPagination]="false" [nzBordered]="true">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Request</th>
+                <th>Response</th>
+                <th>Metadata</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of endpointTable.data">
+                <td>{{data.name}}</td>
+                <td>
+                    <pre class="json">{{data.request|endpoint}}</pre>
+                </td>
+                <td>
+                    <pre class="json">{{data.response|endpoint}}</pre>
+                </td>
+                <td>{{data.metadata|json}}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>
+
+<nz-back-top></nz-back-top>

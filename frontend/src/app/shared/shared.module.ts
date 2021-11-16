@@ -10,6 +10,7 @@ import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
 
 import { ServiceProxyModule } from './service-proxies/service-proxy.module';
+import { EndpointPipe } from './pipes/endpoint.pipe';
 
 // #region third libs
 
@@ -19,7 +20,7 @@ const THIRDMODULES: Array<Type<void>> = [];
 
 // #region your componets & directives
 
-const COMPONENTS: Array<Type<void>> = [];
+const COMPONENTS: Array<Type<void>> = [EndpointPipe];
 const DIRECTIVES: Array<Type<void>> = [];
 
 // #endregion

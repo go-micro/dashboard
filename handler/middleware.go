@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"log"
 	"net/http"
 	"strings"
 
@@ -12,7 +11,6 @@ import (
 
 func AuthRequired() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		log.Println(ctx.Request)
 		if ctx.Request.Method == "OPTIONS" {
 			ctx.Next()
 			return
@@ -28,10 +26,10 @@ func AuthRequired() gin.HandlerFunc {
 			return []byte(config.GetAuthConfig().TokenSecret), nil
 		})
 		if err != nil {
-			ctx.AbortWithError(401, err)
+			ctx.AbortWithError(http.StatusUnauthorized, err)
 		}
 		if !token.Valid {
-			ctx.AbortWithStatus(401)
+			ctx.AbortWithStatus(http.StatusUnauthorized)
 		}
 		ctx.Set("username", claims.Subject)
 		ctx.Next()
@@ -41,7 +39,7 @@ func AuthRequired() gin.HandlerFunc {
 func CorsHandler(allowOrigin string) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		ctx.Header("Access-Control-Allow-Origin", allowOrigin)
-		ctx.Header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		ctx.Header("Access-Control-Allow-Headers", "Content-Type, Authorization, token")
 		ctx.Header("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS")
 		ctx.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type")
 		ctx.Header("Access-Control-Allow-Credentials", "true")

@@ -84,7 +84,6 @@ export class UserLoginComponent {
         this.cdr.detectChanges();
       }))
       .subscribe(resp => {
-        console.log("failed")
         if (!resp.token) {
           this.error = "login failed";
           this.cdr.detectChanges();

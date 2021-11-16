@@ -19,6 +19,11 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzBackTopModule } from 'ng-zorro-antd/back-top';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 
 export const SHARED_ZORRO_MODULES = [
   NzFormModule,
@@ -42,4 +47,9 @@ export const SHARED_ZORRO_MODULES = [
   NzIconModule,
   NzCheckboxModule,
   NzSpinModule,
+  NzListModule,
+  NzTagModule,
+  NzBreadCrumbModule,
+  NzBackTopModule,
+  NzPageHeaderModule,
 ];

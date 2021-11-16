@@ -14,10 +14,14 @@ func NewRouteRegistrar(registry registry.Registry) route.Registrar {
 	return service{registry: registry}
 }
 
-func (s service) RegisterRoute(router gin.IRoutes) {
-	router.POST("/api/summary", s.GetSummary)
+func (s service) RegisterAuthRoute(router gin.IRoutes) {
+	router.GET("/api/summary", s.GetSummary)
 }
 
+func (s service) RegisterNonAuthRoute(router gin.IRoutes) {
+}
+
+// @Security ApiKeyAuth
 // @Tags Statistics
 // @ID statistics_getSummary
 // @Success 200 	{object}	getSummaryResponse

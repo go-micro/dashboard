@@ -30,7 +30,7 @@ export class AccountServiceProxy {
      * @return success
      */
     login(input: LoginRequest) : Observable<LoginResponse> {
-        let url_ = this.baseUrl + "/api/login";
+        let url_ = this.baseUrl + "/api/account/login";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -101,6 +101,78 @@ export class AccountServiceProxy {
         }
         return _observableOf<LoginResponse>(<any>null);
     }
+
+    /**
+     * @return success
+     */
+    profile() : Observable<ProfileResponse> {
+        let url_ = this.baseUrl + "/api/account/profile";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processProfile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processProfile(<any>response_);
+                } catch (e) {
+                    return <Observable<ProfileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ProfileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processProfile(response: HttpResponseBase): Observable<ProfileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ProfileResponse.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 !== undefined ? resultData400 : <any>null;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = resultData401 !== undefined ? resultData401 : <any>null;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 !== undefined ? resultData500 : <any>null;
+            return throwException("Internal Server Error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ProfileResponse>(<any>null);
+    }
 }
 
 @Injectable()
@@ -112,6 +184,84 @@ export class RegistryServiceProxy {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "localhost:4000/";
+    }
+
+    /**
+     * @param name (optional) service name
+     * @param version (optional) service version
+     * @return OK
+     */
+    getServiceDetail(name: string | null | undefined, version: string | null | undefined) : Observable<GetServiceDetailResponse> {
+        let url_ = this.baseUrl + "/api/registry/service?";
+        if (name !== undefined && name !== null)
+            url_ += "name=" + encodeURIComponent("" + name) + "&";
+        if (version !== undefined && version !== null)
+            url_ += "version=" + encodeURIComponent("" + version) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetServiceDetail(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetServiceDetail(<any>response_);
+                } catch (e) {
+                    return <Observable<GetServiceDetailResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetServiceDetailResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetServiceDetail(response: HttpResponseBase): Observable<GetServiceDetailResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetServiceDetailResponse.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 !== undefined ? resultData400 : <any>null;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = resultData401 !== undefined ? resultData401 : <any>null;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = resultData500 !== undefined ? resultData500 : <any>null;
+            return throwException("Internal Server Error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetServiceDetailResponse>(<any>null);
     }
 
     /**
@@ -347,8 +497,88 @@ export interface ILoginResponse {
     token?: string | undefined;
 }
 
-export class GetServiceListResponse implements IGetServiceListResponse {
+export class ProfileResponse implements IProfileResponse {
+    name?: string | undefined;
+
+    constructor(data?: IProfileResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): ProfileResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProfileResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface IProfileResponse {
+    name?: string | undefined;
+}
+
+export class GetServiceDetailResponse implements IGetServiceDetailResponse {
     services?: RegistryService[] | undefined;
+
+    constructor(data?: IGetServiceDetailResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["services"])) {
+                this.services = [] as any;
+                for (let item of _data["services"])
+                    this.services!.push(RegistryService.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): GetServiceDetailResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetServiceDetailResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.services)) {
+            data["services"] = [];
+            for (let item of this.services)
+                data["services"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IGetServiceDetailResponse {
+    services?: RegistryService[] | undefined;
+}
+
+export class GetServiceListResponse implements IGetServiceListResponse {
+    services?: RegistryServiceSummary[] | undefined;
 
     constructor(data?: IGetServiceListResponse) {
         if (data) {
@@ -364,7 +594,7 @@ export class GetServiceListResponse implements IGetServiceListResponse {
             if (Array.isArray(_data["services"])) {
                 this.services = [] as any;
                 for (let item of _data["services"])
-                    this.services!.push(RegistryService.fromJS(item));
+                    this.services!.push(RegistryServiceSummary.fromJS(item));
             }
         }
     }
@@ -388,7 +618,7 @@ export class GetServiceListResponse implements IGetServiceListResponse {
 }
 
 export interface IGetServiceListResponse {
-    services?: RegistryService[] | undefined;
+    services?: RegistryServiceSummary[] | undefined;
 }
 
 export class RegistryEndpoint implements IRegistryEndpoint {
@@ -585,6 +815,54 @@ export interface IRegistryService {
     name?: string | undefined;
     nodes?: RegistryNode[] | undefined;
     version?: string | undefined;
+}
+
+export class RegistryServiceSummary implements IRegistryServiceSummary {
+    name?: string | undefined;
+    versions?: string[] | undefined;
+
+    constructor(data?: IRegistryServiceSummary) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            if (Array.isArray(_data["versions"])) {
+                this.versions = [] as any;
+                for (let item of _data["versions"])
+                    this.versions!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): RegistryServiceSummary {
+        data = typeof data === 'object' ? data : {};
+        let result = new RegistryServiceSummary();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        if (Array.isArray(this.versions)) {
+            data["versions"] = [];
+            for (let item of this.versions)
+                data["versions"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IRegistryServiceSummary {
+    name?: string | undefined;
+    versions?: string[] | undefined;
 }
 
 export class RegistryValue implements IRegistryValue {

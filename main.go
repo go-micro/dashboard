@@ -14,6 +14,15 @@ const (
 	Version = "1.0.0"
 )
 
+// @title Go Micro Dashboard
+// @version 1.0.0
+// @description go micro dashboard restful-api
+// @termsOfService http://swagger.io/terms/
+// @BasePath /
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+
 func main() {
 	if err := config.Load(); err != nil {
 		logger.Fatal(err)

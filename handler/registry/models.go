@@ -1,5 +1,14 @@
 package registry
 
+type registryServiceSummary struct {
+	Name     string   `json:"name"`
+	Versions []string `json:"versions,omitempty"`
+}
+
+type getServiceListResponse struct {
+	Services []registryServiceSummary `json:"services"`
+}
+
 type registryService struct {
 	Name      string             `json:"name"`
 	Version   string             `json:"version,omitempty"`
@@ -27,6 +36,6 @@ type registryValue struct {
 	Values []registryValue `json:"values"`
 }
 
-type getServiceListResponse struct {
+type getServiceDetailResponse struct {
 	Services []registryService `json:"services"`
 }

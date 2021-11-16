@@ -35,17 +35,14 @@ func Register(opts Options) error {
 	if cfg := config.GetServerConfig().CORS; cfg.Enable {
 		router.Use(CorsHandler(cfg.Origin))
 	}
+	authRouter := router.Group("").Use(AuthRequired())
 	for _, r := range []route.Registrar{
 		account.NewRouteRegistrar(),
-	} {
-		r.RegisterRoute(router)
-	}
-	authRouter := opts.Router.Use(AuthRequired())
-	for _, r := range []route.Registrar{
 		registry.NewRouteRegistrar(opts.Client.Options().Registry),
 		statistics.NewRouteRegistrar(opts.Client.Options().Registry),
 	} {
-		r.RegisterRoute(authRouter)
+		r.RegisterNonAuthRoute(router)
+		r.RegisterAuthRoute(authRouter)
 	}
 	return nil
 }
