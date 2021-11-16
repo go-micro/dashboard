@@ -1,0 +1,11 @@
+server:
+  env: "dev"
+  address: ":4000"
+  cors:
+    enable: true
+    origin: "http://localhost:4200"
+  swagger:
+    host: "localhost:4000"
+    base: "/"
+  web:
+    path: "./web"
