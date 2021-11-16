@@ -8,4 +8,4 @@ server:
     host: "localhost:4000"
     base: "/"
   web:
-    path: "./frontend/dist"
+    path: "./web"

@@ -2,13 +2,15 @@
 
 Go micro dashboard is designed to make it as easy as possible for users to work with go-micro framework.
 
-# Features
+## Features
 
-- [ ] Dashboard
-- [ ] Services list
-- [ ] Support request endpoints
-- [ ] Support dashboard authenticate
-- [ ] Support configure service
+- [ ] Logo
+- [x] Dashboard
+- [x] Services list
+- [ ] Health check
+- [ ] Configure service
+- [ ] Endpoint request
+- [ ] Broker messages
 
 ## Development
 
