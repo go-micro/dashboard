@@ -59,6 +59,17 @@ export class StartupService {
             icon: { type: 'icon', value: 'cloud' }
           }
         ]
+      },
+      {
+        text: 'Client',
+        group: true,
+        children: [
+          {
+            text: 'Call',
+            link: '/client/call',
+            icon: { type: 'icon', value: 'api' }
+          }
+        ]
       }
     ]);
     // Can be set page suffix title, https://ng-alain.com/theme/title

@@ -10,6 +10,7 @@ import (
 	"github.com/xpunch/go-micro-dashboard/config"
 	"github.com/xpunch/go-micro-dashboard/docs"
 	"github.com/xpunch/go-micro-dashboard/handler/account"
+	handlerclient "github.com/xpunch/go-micro-dashboard/handler/client"
 	"github.com/xpunch/go-micro-dashboard/handler/registry"
 	"github.com/xpunch/go-micro-dashboard/handler/route"
 	"github.com/xpunch/go-micro-dashboard/handler/statistics"
@@ -38,6 +39,7 @@ func Register(opts Options) error {
 	authRouter := router.Group("").Use(AuthRequired())
 	for _, r := range []route.Registrar{
 		account.NewRouteRegistrar(),
+		handlerclient.NewRouteRegistrar(opts.Client, opts.Client.Options().Registry),
 		registry.NewRouteRegistrar(opts.Client.Options().Registry),
 		statistics.NewRouteRegistrar(opts.Client.Options().Registry),
 	} {

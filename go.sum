@@ -84,6 +84,10 @@ github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5 h1:0CwZNZbxp69SHPd
 github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5/go.mod h1:wHh0iHkYZB8zMSxRWpUBQtwG5a7fFgvEO+odwuTv2gs=
 github.com/asim/go-micro/plugins/client/grpc/v4 v4.0.0-20211103025805-c5be9f560cdb h1:Hsj2MRPRA5/D5RLZD5Rv2ghXQ6o/dBEdU41pAjZ4psk=
 github.com/asim/go-micro/plugins/client/grpc/v4 v4.0.0-20211103025805-c5be9f560cdb/go.mod h1:1f9oUqPOpPZZeBBeAQhQzAS4d3jTxLWQtNKHeKolW6M=
+github.com/asim/go-micro/plugins/client/http/v4 v4.0.0-20211111140334-799b8d6a6559 h1:w0lcqJnqYaYTXQbtm9GQ7R7o+JXv4LtAPwRpBx08EDs=
+github.com/asim/go-micro/plugins/client/http/v4 v4.0.0-20211111140334-799b8d6a6559/go.mod h1:b6uXG9QOlAs3Eh1es67Y6Mq6ALHyoQT+t0tFZEWW8+8=
+github.com/asim/go-micro/plugins/client/mucp/v4 v4.0.0-20211111140334-799b8d6a6559 h1:qI1tfjXDPtHSWWKOsz7STAjGDMll+z8AVcAoIwI4GZA=
+github.com/asim/go-micro/plugins/client/mucp/v4 v4.0.0-20211111140334-799b8d6a6559/go.mod h1:ZXjR4r15LatjvBSKIXqi9/frEVw28kmcvOZ7rkaAACg=
 github.com/asim/go-micro/plugins/config/encoder/toml/v4 v4.0.0-20211103025805-c5be9f560cdb h1:74d2WVGDJQJRuDLQkzXrwgwJrvuAu2dcv9dVIBNm/70=
 github.com/asim/go-micro/plugins/config/encoder/toml/v4 v4.0.0-20211103025805-c5be9f560cdb/go.mod h1:9Max62Jwq5e095WubZcqUc7DQA0+EKFRT+Voj6dYwvw=
 github.com/asim/go-micro/plugins/config/encoder/yaml/v4 v4.0.0-20211103025805-c5be9f560cdb h1:nsAPI/QfurH9UQy40IP+QXtG90jyXbggvoGrw2ivcPc=

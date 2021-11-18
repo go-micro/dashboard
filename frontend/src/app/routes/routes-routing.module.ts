@@ -5,6 +5,7 @@ import { environment } from '@env/environment';
 // layout
 import { LayoutBasicComponent } from '../layout/basic/basic.component';
 import { LayoutPassportComponent } from '../layout/passport/passport.component';
+import { ClientEndpointCallComponent } from './client/call.component';
 // dashboard pages
 import { DashboardComponent } from './dashboard/dashboard.component';
 // passport pages
@@ -22,16 +23,10 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard', titleI18n: 'dashboard' } },
       { path: 'services', component: ServicesListComponent, data: { title: 'Services', titleI18n: 'services' } },
       { path: 'service/detail', component: ServiceDetailComponent },
+      { path: 'client/call', component: ClientEndpointCallComponent, data: { title: 'Call', titleI18n: 'call' } },
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
     ]
   },
-  // {
-  //     path: 'blank',
-  //     component: LayoutBlankComponent,
-  //     children: [
-  //     ]
-  // },
-  // passport
   {
     path: 'passport',
     component: LayoutPassportComponent,

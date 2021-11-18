@@ -33,11 +33,7 @@ export class ServicesListComponent implements OnInit {
         });
     }
 
-    goto(url: string) {
-        this.router.navigateByUrl(url);
-    }
-
-    gotoService(name: any, version: any) {
+    gotoServiceDetail(name: any, version: any) {
         let navigationExtras: NavigationExtras = {
             queryParams: { 'name': name, 'version': version }
         };
