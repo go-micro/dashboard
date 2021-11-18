@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { RegistryService, RegistryServiceProxy } from 'src/app/shared/service-proxies/service-proxies';
 
 @Component({
   selector: 'micro-service',
   templateUrl: './detail.component.html',
-  // styleUrls: ['./service.component.less'],
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class ServiceDetailComponent implements OnInit {
@@ -16,12 +15,12 @@ export class ServiceDetailComponent implements OnInit {
   services: RegistryService[] = [];
 
   constructor(private readonly route: ActivatedRoute,
-    private readonly registryService: RegistryServiceProxy,) {
+    private readonly router: Router,
+    private readonly registryService: RegistryServiceProxy,
+  ) {
   }
 
   ngOnInit(): void {
-    // console.log(this.route.snapshot.queryParams['name']);
-    // console.log(this.route.snapshot.queryParams['version']);
     var name = this.route.snapshot.queryParams['name'];
     if (name) {
       this.name = name;
@@ -46,7 +45,10 @@ export class ServiceDetailComponent implements OnInit {
     });
   }
 
-  goBack() {
-    history.go(-1);
+  gotoCall(service: string, version: string, endpoint: string) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: { 'service': service, 'version': version, 'endpoint': endpoint }
+    };
+    this.router.navigate(['/client/call'], navigationExtras);
   }
 }

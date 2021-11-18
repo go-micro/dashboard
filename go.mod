@@ -5,6 +5,8 @@ go 1.17
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/asim/go-micro/plugins/client/grpc/v4 v4.0.0-20211103025805-c5be9f560cdb
+	github.com/asim/go-micro/plugins/client/http/v4 v4.0.0-20211111140334-799b8d6a6559
+	github.com/asim/go-micro/plugins/client/mucp/v4 v4.0.0-20211111140334-799b8d6a6559
 	github.com/asim/go-micro/plugins/config/encoder/toml/v4 v4.0.0-20211103025805-c5be9f560cdb
 	github.com/asim/go-micro/plugins/config/encoder/yaml/v4 v4.0.0-20211103025805-c5be9f560cdb
 	github.com/asim/go-micro/plugins/registry/etcd/v4 v4.0.0-20211103025805-c5be9f560cdb

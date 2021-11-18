@@ -1,5 +1,6 @@
 import { NgModule, Type } from '@angular/core';
 import { SharedModule } from '@shared';
+import { ClientEndpointCallComponent } from './client/call.component';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserLoginComponent } from './passport/login/login.component';
@@ -12,6 +13,7 @@ const COMPONENTS: Array<Type<void>> = [
   UserLoginComponent,
   ServicesListComponent,
   ServiceDetailComponent,
+  ClientEndpointCallComponent,
 ];
 
 @NgModule({

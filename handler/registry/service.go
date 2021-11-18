@@ -20,6 +20,7 @@ func NewRouteRegistrar(registry registry.Registry) route.Registrar {
 func (s service) RegisterAuthRoute(router gin.IRoutes) {
 	router.GET("/api/registry/services", s.GetServices)
 	router.GET("/api/registry/service", s.GetServiceDetail)
+	router.GET("/api/registry/service/endpoints", s.GetServiceEndpoints)
 }
 
 func (s service) RegisterNonAuthRoute(router gin.IRoutes) {
@@ -80,21 +81,6 @@ func (s *service) GetServiceDetail(ctx *gin.Context) {
 		ctx.Render(500, render.String{Format: err.Error()})
 		return
 	}
-	var convertValue func(v *registry.Value) registryValue
-	convertValue = func(v *registry.Value) registryValue {
-		if v == nil {
-			return registryValue{}
-		}
-		res := registryValue{
-			Name:   v.Name,
-			Type:   v.Type,
-			Values: make([]registryValue, 0, len(v.Values)),
-		}
-		for _, vv := range v.Values {
-			res.Values = append(res.Values, convertValue(vv))
-		}
-		return res
-	}
 	version := ctx.Query("version")
 	resp := getServiceDetailResponse{Services: make([]registryService, 0, len(services))}
 	for _, s := range services {
@@ -105,8 +91,8 @@ func (s *service) GetServiceDetail(ctx *gin.Context) {
 		for _, e := range s.Endpoints {
 			endpoints = append(endpoints, registryEndpoint{
 				Name:     e.Name,
-				Request:  convertValue(e.Request),
-				Response: convertValue(e.Response),
+				Request:  convertRegistryValue(e.Request),
+				Response: convertRegistryValue(e.Response),
 				Metadata: e.Metadata,
 			})
 		}
@@ -125,6 +111,51 @@ func (s *service) GetServiceDetail(ctx *gin.Context) {
 			Endpoints: endpoints,
 			Nodes:     nodes,
 		})
+	}
+	ctx.JSON(200, resp)
+}
+
+// @Security ApiKeyAuth
+// @Tags Registry
+// @ID registry_getServiceEndpoints
+// @Param 	name  	query 		string 						true "service name"
+// @Param 	version	query 		string	 					false "service version"
+// @Success 200 	{object}	getServiceEndpointsResponse
+// @Failure 400 	{object}	string
+// @Failure 401 	{object}	string
+// @Failure 500		{object}	string
+// @Router /api/registry/service/endpoints [get]
+func (s *service) GetServiceEndpoints(ctx *gin.Context) {
+	name := ctx.Query("name")
+	if len(name) == 0 {
+		ctx.Render(400, render.String{Format: "service name required"})
+		return
+	}
+	services, err := s.registry.GetService(name)
+	if err != nil {
+		ctx.Render(500, render.String{Format: err.Error()})
+		return
+	}
+	version := ctx.Query("version")
+	resp := getServiceEndpointsResponse{}
+	for _, s := range services {
+		if s.Version != version {
+			continue
+		}
+		endpoints := make([]registryEndpoint, 0, len(s.Endpoints))
+		for _, e := range s.Endpoints {
+			if e.Name == "Func" {
+				continue
+			}
+			endpoints = append(endpoints, registryEndpoint{
+				Name:     e.Name,
+				Request:  convertRegistryValue(e.Request),
+				Response: convertRegistryValue(e.Response),
+				Metadata: e.Metadata,
+			})
+		}
+		resp.Endpoints = endpoints
+		break
 	}
 	ctx.JSON(200, resp)
 }

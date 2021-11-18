@@ -15,47 +15,54 @@
     </ng-template>
 </page-header>
 
-<div *ngFor="let service of services">
-    <nz-table *ngIf="service.nodes" #basicTable [nzData]="service.nodes" [nzTitle]="service.version?service.version:'-'"
-        [nzFrontPagination]="false" [nzBordered]="true">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Address</th>
-                <th>Metadata</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let data of basicTable.data">
-                <td>{{data.id}}</td>
-                <td>{{data.address}}</td>
-                <td>{{data.metadata|json}}</td>
-            </tr>
-        </tbody>
-    </nz-table>
-    <nz-table #endpointTable *ngIf="service.endpoints" [nzData]="service.endpoints" nzTitle="Endpoints"
-        [nzFrontPagination]="false" [nzBordered]="true">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Request</th>
-                <th>Response</th>
-                <th>Metadata</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let data of endpointTable.data">
-                <td>{{data.name}}</td>
-                <td>
-                    <pre class="json">{{data.request|endpoint}}</pre>
-                </td>
-                <td>
-                    <pre class="json">{{data.response|endpoint}}</pre>
-                </td>
-                <td>{{data.metadata|json}}</td>
-            </tr>
-        </tbody>
-    </nz-table>
-</div>
+<nz-collapse>
+    <nz-collapse-panel *ngFor="let service of services" [nzHeader]="service.version" nzActive="true">
+        <nz-table *ngIf="service.nodes" #basicTable [nzData]="service.nodes" [nzFrontPagination]="false"
+            [nzBordered]="true">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Address</th>
+                    <th>Metadata</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data">
+                    <td>{{data.id}}</td>
+                    <td>{{data.address}}</td>
+                    <td>{{data.metadata|json}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <nz-table #endpointTable *ngIf="service.endpoints" [nzData]="service.endpoints" nzTitle="Endpoints"
+            [nzFrontPagination]="false" [nzBordered]="true">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Request</th>
+                    <th>Response</th>
+                    <th>Metadata</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of endpointTable.data">
+                    <td>
+                        {{data.name}}
+                        <a *ngIf="data.name!='Func'" (click)="gotoCall(service.name, service.version, data.name)">
+                            Call
+                        </a>
+                    </td>
+                    <td>
+                        <pre class="json">{{data.request|endpoint}}</pre>
+                    </td>
+                    <td>
+                        <pre class="json">{{data.response|endpoint}}</pre>
+                    </td>
+                    <td>{{data.metadata|json}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-collapse-panel>
+</nz-collapse>
 
 <nz-back-top></nz-back-top>
