@@ -5,12 +5,18 @@ Go micro dashboard is designed to make it as easy as possible for users to work 
 ## Features
 
 - [ ] Logo
-- [x] Dashboard
-- [x] Services list
+- [x] Web UI
+- [x] Service discovery
 - [ ] Health check
 - [ ] Configure service
-- [ ] Endpoint request
+- [x] Endpoint request
 - [ ] Broker messages
+
+## Installation
+
+```
+go install github.com/xpunch/go-micro-dashboard@latest
+```
 
 ## Development
 
@@ -24,8 +30,9 @@ swag init
 ```
 
 #### Config
+
 ```
-default username: admin 
+default username: admin
 default password: 123456
 ```
 
@@ -33,16 +40,17 @@ default password: 123456
 
 [Document](https://github.com/xpunch/go-micro-dashboard/tree/main/frontend)
 
+#### Generate Web Files
+
+```
+go install github.com/UnnoTed/fileb0x@latest
+fileb0x b0x.yaml
+```
+
 ## Docker
 
 ```
-docker run .
-```
-
-## Docker Compose
-
-```
-docker-compose up -d
+docker run -d --name "go-micro-dashboard" -p "4000:4000" xpunch/go-micro-dashboard
 ```
 
 ### Community

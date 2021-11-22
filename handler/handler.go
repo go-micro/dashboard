@@ -1,9 +1,6 @@
 package handler
 
 import (
-	"path/filepath"
-
-	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
@@ -14,6 +11,7 @@ import (
 	"github.com/xpunch/go-micro-dashboard/handler/registry"
 	"github.com/xpunch/go-micro-dashboard/handler/route"
 	"github.com/xpunch/go-micro-dashboard/handler/statistics"
+	"github.com/xpunch/go-micro-dashboard/web"
 	"go-micro.dev/v4/client"
 )
 
@@ -29,10 +27,9 @@ func Register(opts Options) error {
 		docs.SwaggerInfo.BasePath = cfg.Swagger.Base
 		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
-	router.Use(static.Serve("/", static.LocalFile(config.GetServerConfig().Web.Path, false)))
-	router.NoRoute(func(c *gin.Context) {
-		c.File(filepath.Join(config.GetServerConfig().Web.Path, "index.html"))
-	})
+	if err := web.RegisterRoute(router); err != nil {
+		return err
+	}
 	if cfg := config.GetServerConfig().CORS; cfg.Enable {
 		router.Use(CorsHandler(cfg.Origin))
 	}

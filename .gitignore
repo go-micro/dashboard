@@ -14,5 +14,6 @@
 # Swagger
 docs/
 
-# frontend dist
-web/
+# config files
+config.yaml
+config.toml

@@ -29,11 +29,8 @@ var _cfg *Config = &Config{
 			TokenExpiration: 24 * time.Hour,
 		},
 		Swagger: SwaggerConfig{
-			Host: "localhost:4000",
+			Host: "localhost",
 			Base: "/",
-		},
-		Web: WebConfig{
-			Path: "web",
 		},
 	},
 }
@@ -43,10 +40,6 @@ func Load() error {
 	var configor config.Config
 	var err error
 	switch strings.ToLower(os.Getenv("CONFIG_TYPE")) {
-	case "env":
-		configor, err = config.NewConfig(
-			config.WithSource(env.NewSource()),
-		)
 	case "toml":
 		filename := "config.toml"
 		if name := os.Getenv("CONFIG_FILE"); len(name) > 0 {
@@ -56,7 +49,7 @@ func Load() error {
 			config.WithSource(file.NewSource(file.WithPath(filename))),
 			config.WithReader(json.NewReader(reader.WithEncoder(toml.NewEncoder()))),
 		)
-	default:
+	case "yaml":
 		filename := "config.yaml"
 		if name := os.Getenv("CONFIG_FILE"); len(name) > 0 {
 			filename = name
@@ -64,6 +57,10 @@ func Load() error {
 		configor, err = config.NewConfig(
 			config.WithSource(file.NewSource(file.WithPath(filename))),
 			config.WithReader(json.NewReader(reader.WithEncoder(yaml.NewEncoder()))),
+		)
+	default:
+		configor, err = config.NewConfig(
+			config.WithSource(env.NewSource()),
 		)
 	}
 	if err != nil {

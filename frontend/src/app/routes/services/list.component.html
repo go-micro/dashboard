@@ -16,7 +16,7 @@
     <nz-list-item *ngFor="let service of services" nzNoFlex>
         <a (click)="gotoServiceDetail(service.name, undefined)">{{ service.name }}</a>
         <span *ngFor="let version of service.versions" style="margin-left:8px;">
-            <nz-tag [nzColor]="'green'"><a (click)="gotoServiceDetail(service.name, version)">{{ version }}</a></nz-tag>
+            <nz-tag *ngIf="version" [nzColor]="'green'"><a (click)="gotoServiceDetail(service.name, version)">{{ version }}</a></nz-tag>
         </span>
     </nz-list-item>
     <nz-list-empty *ngIf="!services||!services.length"></nz-list-empty>
