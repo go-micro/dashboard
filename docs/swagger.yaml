@@ -1,0 +1,376 @@
+basePath: /
+definitions:
+  account.loginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  account.loginResponse:
+    properties:
+      token:
+        type: string
+    required:
+    - token
+    type: object
+  account.profileResponse:
+    properties:
+      name:
+        type: string
+    type: object
+  client.callRequest:
+    properties:
+      endpoint:
+        type: string
+      request:
+        type: string
+      service:
+        type: string
+      timeout:
+        type: integer
+      version:
+        type: string
+    required:
+    - endpoint
+    - service
+    type: object
+  registry.getServiceDetailResponse:
+    properties:
+      services:
+        items:
+          $ref: '#/definitions/registry.registryService'
+        type: array
+    type: object
+  registry.getServiceEndpointsResponse:
+    properties:
+      endpoints:
+        items:
+          $ref: '#/definitions/registry.registryEndpoint'
+        type: array
+    type: object
+  registry.getServiceListResponse:
+    properties:
+      services:
+        items:
+          $ref: '#/definitions/registry.registryServiceSummary'
+        type: array
+    required:
+    - services
+    type: object
+  registry.registryEndpoint:
+    properties:
+      metadata:
+        additionalProperties:
+          type: string
+        type: object
+      name:
+        type: string
+      request:
+        $ref: '#/definitions/registry.registryValue'
+      response:
+        $ref: '#/definitions/registry.registryValue'
+    required:
+    - name
+    - request
+    type: object
+  registry.registryNode:
+    properties:
+      address:
+        type: string
+      id:
+        type: string
+      metadata:
+        additionalProperties:
+          type: string
+        type: object
+    required:
+    - address
+    - id
+    type: object
+  registry.registryService:
+    properties:
+      endpoints:
+        items:
+          $ref: '#/definitions/registry.registryEndpoint'
+        type: array
+      metadata:
+        additionalProperties:
+          type: string
+        type: object
+      name:
+        type: string
+      nodes:
+        items:
+          $ref: '#/definitions/registry.registryNode'
+        type: array
+      version:
+        type: string
+    required:
+    - name
+    - version
+    type: object
+  registry.registryServiceSummary:
+    properties:
+      name:
+        type: string
+      versions:
+        items:
+          type: string
+        type: array
+    required:
+    - name
+    type: object
+  registry.registryValue:
+    properties:
+      name:
+        type: string
+      type:
+        type: string
+      values:
+        items:
+          $ref: '#/definitions/registry.registryValue'
+        type: array
+    required:
+    - name
+    - type
+    type: object
+  statistics.getSummaryResponse:
+    properties:
+      registry:
+        $ref: '#/definitions/statistics.registrySummary'
+      services:
+        $ref: '#/definitions/statistics.servicesSummary'
+    type: object
+  statistics.registrySummary:
+    properties:
+      addrs:
+        items:
+          type: string
+        type: array
+      type:
+        type: string
+    type: object
+  statistics.servicesSummary:
+    properties:
+      count:
+        type: integer
+      nodes_count:
+        type: integer
+    type: object
+info:
+  contact: {}
+  description: go micro dashboard restful-api
+  termsOfService: http://swagger.io/terms/
+  title: Go Micro Dashboard
+  version: 1.0.0
+paths:
+  /api/account/login:
+    post:
+      operationId: account_login
+      parameters:
+      - description: request
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/account.loginRequest'
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/account.loginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      tags:
+      - Account
+  /api/account/profile:
+    get:
+      operationId: account_profile
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/account.profileResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Account
+  /api/client/endpoint/call:
+    post:
+      operationId: client_callEndpoint
+      parameters:
+      - description: request
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/client.callRequest'
+      responses:
+        "200":
+          description: success
+          schema:
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Client
+  /api/registry/service:
+    get:
+      operationId: registry_getServiceDetail
+      parameters:
+      - description: service name
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: service version
+        in: query
+        name: version
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/registry.getServiceDetailResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Registry
+  /api/registry/service/endpoints:
+    get:
+      operationId: registry_getServiceEndpoints
+      parameters:
+      - description: service name
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: service version
+        in: query
+        name: version
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/registry.getServiceEndpointsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Registry
+  /api/registry/services:
+    get:
+      operationId: registry_getServices
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/registry.getServiceListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Registry
+  /api/summary:
+    get:
+      operationId: statistics_getSummary
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/statistics.getSummaryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Statistics
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

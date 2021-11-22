@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  dashboard:
+    image: xpunch/go-micro-dashboard:latest
+    container_name: go-micro-dashboard
+    ports:
+      - "4000:4000"
+    environment:
+      - MICRO_REGISTRY=etcd
+      - MICRO_REGISTRY_ADDRESS=etcd
+      - CONFIG_TYPE=yaml
+      - CONFIG_FILE=/etc/micro/dashboard.yaml
+    volumes:
+      - "./config.yaml:/etc/micro/dashboard.yaml"
