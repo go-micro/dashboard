@@ -17,7 +17,6 @@ type ServerConfig struct {
 	Auth    AuthConfig
 	CORS    CORSConfig
 	Swagger SwaggerConfig
-	Web     WebConfig
 }
 
 type AuthConfig struct {
@@ -35,10 +34,6 @@ type CORSConfig struct {
 type SwaggerConfig struct {
 	Host string
 	Base string
-}
-
-type WebConfig struct {
-	Path string
 }
 
 func GetConfig() Config {
