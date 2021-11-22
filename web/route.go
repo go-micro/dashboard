@@ -26,6 +26,8 @@ func RegisterRoute(router *gin.Engine) error {
 					c.Header("Content-Type", "text/css; charset=utf-8")
 				case ".js":
 					c.Header("Content-Type", "application/javascript")
+				case ".svg":
+					c.Header("Content-Type", "image/svg+xml")
 				}
 				if _, err := c.Writer.Write(data); err != nil {
 					c.AbortWithError(500, err)

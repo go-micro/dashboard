@@ -13,13 +13,12 @@ require (
 	github.com/asim/go-micro/plugins/registry/kubernetes/v4 v4.0.0-20211101090014-adaa98e6cffe
 	github.com/asim/go-micro/plugins/server/http/v4 v4.0.0-20211103025805-c5be9f560cdb
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/gin-contrib/static v0.0.1
 	github.com/gin-gonic/gin v1.7.4
-	github.com/markbates/pkger v0.17.1
 	github.com/pkg/errors v0.9.1
 	github.com/swaggo/gin-swagger v1.3.3
 	github.com/swaggo/swag v1.7.4
 	go-micro.dev/v4 v4.3.0
+	golang.org/x/net v0.0.0-20210510120150-4163338589ed
 )
 
 require (
@@ -48,7 +47,6 @@ require (
 	github.com/go-playground/locales v0.13.0 // indirect
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
-	github.com/gobuffalo/here v0.6.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.2.0 // indirect
@@ -81,7 +79,6 @@ require (
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.17.0 // indirect
 	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a // indirect
-	golang.org/x/net v0.0.0-20210510120150-4163338589ed // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/sys v0.0.0-20210603081109-ebe580a85c40 // indirect
 	golang.org/x/text v0.3.6 // indirect
