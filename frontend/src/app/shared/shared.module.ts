@@ -14,7 +14,8 @@ import { EndpointPipe } from './pipes/endpoint.pipe';
 
 // #region third libs
 
-const THIRDMODULES: Array<Type<void>> = [];
+import { ClipboardModule } from 'ngx-clipboard';
+const THIRDMODULES: Array<Type<void>> = [ClipboardModule];
 
 // #endregion
 

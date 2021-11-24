@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { ClipboardService } from 'ngx-clipboard';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { CallRequest, ClientServiceProxy, RegistryEndpoint, RegistryServiceProxy, RegistryServiceSummary, RegistryValue } from 'src/app/shared/service-proxies/service-proxies';
 
 interface RequestPayload {
@@ -27,6 +29,8 @@ export class ClientEndpointCallComponent implements OnInit {
 
   constructor(private readonly route: ActivatedRoute,
     private readonly clientService: ClientServiceProxy,
+    private readonly clipboardService: ClipboardService,
+    private readonly messageService: NzMessageService,
     private readonly registryService: RegistryServiceProxy,
   ) {
   }
@@ -51,6 +55,7 @@ export class ClientEndpointCallComponent implements OnInit {
     this.loading = true;
     this.selectedEndpoint = undefined;
     this.services = [];
+    this.response = {};
     this.registryService.getServices().pipe(
       finalize(() => {
         this.loading = false;
@@ -107,11 +112,34 @@ export class ClientEndpointCallComponent implements OnInit {
 
   endpointChanged(endpoint: RegistryEndpoint) {
     this.endpoint = endpoint.name;
-    this.updateRequestPayload(endpoint.request);
+    this.loadEndpointReuqest(endpoint);
+  }
+
+  loadEndpointReuqest(endpoint: RegistryEndpoint) {
+    var previousRequest = localStorage.getItem(endpoint.name + '.request');
+    if (previousRequest) {
+      try {
+        this.request = eval('(' + previousRequest + ')');
+      } catch (e) {
+        // SyntaxError
+      }
+    } else {
+      this.updateRequestPayload(endpoint.request);
+    }
   }
 
   requestChanged(request: string) {
-    this.request = eval('(' + request + ')');
+    try {
+      this.request = eval('(' + request + ')');
+      localStorage.setItem(this.endpoint + '.request', JSON.stringify(this.request));
+    } catch (e) {
+      // SyntaxError
+    }
+  }
+
+  copyToClipboard(text: string) {
+    this.clipboardService.copy(JSON.stringify(text));
+    this.messageService.create('success', `Copied to Clipboard`);
   }
 
   private loadEndpoints() {
@@ -126,13 +154,13 @@ export class ClientEndpointCallComponent implements OnInit {
           resp.endpoints?.forEach(e => {
             if (e.name == this.endpoint) {
               this.selectedEndpoint = e;
-              this.updateRequestPayload(e.request);
+              this.loadEndpointReuqest(this.selectedEndpoint);
             }
           });
         } else {
           this.selectedEndpoint = this.endpoints[0];
           this.endpoint = this.endpoints[0].name;
-          this.updateRequestPayload(this.endpoints[0].request);
+          this.loadEndpointReuqest(this.selectedEndpoint);
         }
       }
     });
@@ -147,17 +175,21 @@ export class ClientEndpointCallComponent implements OnInit {
         }
         let value: any;
         switch (v.type) {
-          case "string":
+          case 'string':
             value = '';
             break;
-          case "int":
-          case "int32":
-          case "int64":
-          case "uint":
-          case "uint32":
-          case "uint64":
+          case 'int':
+          case 'int32':
+          case 'int64':
+          case 'uint':
+          case 'uint32':
+          case 'uint64':
             value = 0;
             break;
+          case 'float64':
+          case 'float32':
+            value = 0.00;
+            break
           case 'bool':
             value = false;
             break;
