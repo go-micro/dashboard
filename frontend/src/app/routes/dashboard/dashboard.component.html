@@ -18,7 +18,7 @@
         <sv label="Addrs">{{ registryAddrs }}</sv>
     </sv-container>
 </nz-card>
-<nz-card [nzHoverable]="true" [nzBordered]="false">
+<nz-card [nzHoverable]="true" [nzBordered]="false" (click)="goto('/services')">
     <sv-container size="large" title="Services">
         <sv label="Services"><a (click)="goto('/services')">{{ servicesCount }}</a></sv>
         <sv label="Nodes"><a (click)="goto('/services')">{{ nodesCount }}</a></sv>

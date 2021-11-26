@@ -104,5 +104,5 @@ export const ICONS_AUTO = [
   UsbOutline,
   UserOutline,
   WeiboCircleOutline,
-  ClearOutline
+  ClearOutline,
 ];

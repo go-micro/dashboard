@@ -68,6 +68,11 @@ export class StartupService {
             text: 'Call',
             link: '/client/call',
             icon: { type: 'icon', value: 'api' }
+          },
+          {
+            text: 'Publish',
+            link: '/client/publish',
+            icon: { type: 'icon', value: 'sound' }
           }
         ]
       }

@@ -27,7 +27,8 @@ func NewRouteRegistrar(client client.Client, registry registry.Registry) route.R
 }
 
 func (s service) RegisterAuthRoute(router gin.IRoutes) {
-	router.POST("/api/client/endpoint/call", s.CallEndpoint)
+	router.POST("/api/client/call", s.Call)
+	router.POST("/api/client/publish", s.Publish)
 }
 
 func (s service) RegisterNonAuthRoute(router gin.IRoutes) {
@@ -35,14 +36,14 @@ func (s service) RegisterNonAuthRoute(router gin.IRoutes) {
 
 // @Security ApiKeyAuth
 // @Tags Client
-// @ID client_callEndpoint
+// @ID client_call
 // @Param	input	body		callRequest		true		"request"
 // @Success 200 	{object}	object			"success"
 // @Failure 400 	{object}	string
 // @Failure 401 	{object}	string
 // @Failure 500		{object}	string
-// @Router /api/client/endpoint/call [post]
-func (s *service) CallEndpoint(ctx *gin.Context) {
+// @Router /api/client/call [post]
+func (s *service) Call(ctx *gin.Context) {
 	var req callRequest
 	if err := ctx.ShouldBindJSON(&req); nil != err {
 		ctx.Render(400, render.String{Format: err.Error()})
@@ -103,4 +104,38 @@ func (s *service) CallEndpoint(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(200, resp)
+}
+
+// @Security ApiKeyAuth
+// @Tags Client
+// @ID client_publish
+// @Param	input	body		publishRequest	true		"request"
+// @Success 200 	{object}	object			"success"
+// @Failure 400 	{object}	string
+// @Failure 401 	{object}	string
+// @Failure 500		{object}	string
+// @Router /api/client/publish [post]
+func (s *service) Publish(ctx *gin.Context) {
+	var req publishRequest
+	if err := ctx.ShouldBindJSON(&req); nil != err {
+		ctx.Render(400, render.String{Format: err.Error()})
+		return
+	}
+	var msg json.RawMessage
+	if len(req.Message) > 0 {
+		if err := json.Unmarshal([]byte(req.Message), &msg); err != nil {
+			ctx.Render(400, render.String{Format: "parse request failed: %s", Data: []interface{}{err.Error()}})
+			return
+		}
+	}
+	err := s.client.Publish(ctx, client.NewMessage(req.Topic, msg, client.WithMessageContentType("application/json")))
+	if err != nil {
+		if merr := errors.Parse(err.Error()); merr != nil {
+			ctx.JSON(200, gin.H{"success": false, "error": merr})
+		} else {
+			ctx.JSON(200, gin.H{"success": false, "error": err.Error})
+		}
+		return
+	}
+	ctx.JSON(200, gin.H{"success": true})
 }

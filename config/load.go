@@ -21,7 +21,7 @@ import (
 var _cfg *Config = &Config{
 	Server: ServerConfig{
 		Env:     EnvProd,
-		Address: ":4000",
+		Address: ":80",
 		Auth: AuthConfig{
 			Username:        "admin",
 			Password:        "123456",

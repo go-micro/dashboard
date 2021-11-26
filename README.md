@@ -1,4 +1,4 @@
-# Go Micro Dashboard
+# Go Micro Dashboard [![View](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fxpunch%2Fgo-micro-dashboard&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=go&edge_flat=false)](https://hits.seeyoufarm.com)
 
 Go micro dashboard is designed to make it as easy as possible for users to work with go-micro framework.
 
@@ -56,8 +56,6 @@ docker run -d --name "go-micro-dashboard" -p "4000:4000" xpunch/go-micro-dashboa
 ### Community
 
 QQ Group: 953973712
-
-[![View](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fxpunch%2Fgo-micro-dashboard&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
 ## License
 

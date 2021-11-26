@@ -38,6 +38,16 @@ definitions:
     - endpoint
     - service
     type: object
+  client.publishRequest:
+    properties:
+      message:
+        type: string
+      topic:
+        type: string
+    required:
+    - message
+    - topic
+    type: object
   registry.getServiceDetailResponse:
     properties:
       services:
@@ -45,9 +55,9 @@ definitions:
           $ref: '#/definitions/registry.registryService'
         type: array
     type: object
-  registry.getServiceEndpointsResponse:
+  registry.getServiceHandlersResponse:
     properties:
-      endpoints:
+      handlers:
         items:
           $ref: '#/definitions/registry.registryEndpoint'
         type: array
@@ -60,6 +70,13 @@ definitions:
         type: array
     required:
     - services
+    type: object
+  registry.getServiceSubscribersResponse:
+    properties:
+      subscribers:
+        items:
+          $ref: '#/definitions/registry.registryEndpoint'
+        type: array
     type: object
   registry.registryEndpoint:
     properties:
@@ -93,7 +110,7 @@ definitions:
     type: object
   registry.registryService:
     properties:
-      endpoints:
+      handlers:
         items:
           $ref: '#/definitions/registry.registryEndpoint'
         type: array
@@ -106,6 +123,10 @@ definitions:
       nodes:
         items:
           $ref: '#/definitions/registry.registryNode'
+        type: array
+      subscribers:
+        items:
+          $ref: '#/definitions/registry.registryEndpoint'
         type: array
       version:
         type: string
@@ -221,9 +242,9 @@ paths:
       - ApiKeyAuth: []
       tags:
       - Account
-  /api/client/endpoint/call:
+  /api/client/call:
     post:
-      operationId: client_callEndpoint
+      operationId: client_call
       parameters:
       - description: request
         in: body
@@ -231,6 +252,37 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/client.callRequest'
+      responses:
+        "200":
+          description: success
+          schema:
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Client
+  /api/client/publish:
+    post:
+      operationId: client_publish
+      parameters:
+      - description: request
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/client.publishRequest'
       responses:
         "200":
           description: success
@@ -286,9 +338,9 @@ paths:
       - ApiKeyAuth: []
       tags:
       - Registry
-  /api/registry/service/endpoints:
+  /api/registry/service/handlers:
     get:
-      operationId: registry_getServiceEndpoints
+      operationId: registry_getServiceHandlers
       parameters:
       - description: service name
         in: query
@@ -303,7 +355,41 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/registry.getServiceEndpointsResponse'
+            $ref: '#/definitions/registry.getServiceHandlersResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Registry
+  /api/registry/service/subscribers:
+    get:
+      operationId: registry_getServiceSubscribers
+      parameters:
+      - description: service name
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: service version
+        in: query
+        name: version
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/registry.getServiceSubscribersResponse'
         "400":
           description: Bad Request
           schema:

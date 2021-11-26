@@ -13,14 +13,14 @@ interface RequestPayload {
   templateUrl: './call.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class ClientEndpointCallComponent implements OnInit {
+export class ClientCallComponent implements OnInit {
   loading = false;
   service: string = '';
   version: string = '';
   endpoint: string = '';
   timeout = 10;
   request: any = undefined;
-  response: any = {};
+  response: any = undefined;
 
   services: RegistryServiceSummary[] = [];
   selectedService: RegistryServiceSummary | undefined = undefined;
@@ -55,7 +55,7 @@ export class ClientEndpointCallComponent implements OnInit {
     this.loading = true;
     this.selectedEndpoint = undefined;
     this.services = [];
-    this.response = {};
+    this.response = undefined;
     this.registryService.getServices().pipe(
       finalize(() => {
         this.loading = false;
@@ -79,6 +79,7 @@ export class ClientEndpointCallComponent implements OnInit {
 
   call() {
     this.loading = true;
+    this.response = undefined;
     var input = new CallRequest({
       service: this.service,
       version: this.version,
@@ -86,7 +87,7 @@ export class ClientEndpointCallComponent implements OnInit {
       request: JSON.stringify(this.request),
       timeout: this.timeout,
     });
-    this.clientService.callEndpoint(input).pipe(
+    this.clientService.call(input).pipe(
       finalize(() => {
         this.loading = false;
       })
@@ -116,7 +117,7 @@ export class ClientEndpointCallComponent implements OnInit {
   }
 
   loadEndpointReuqest(endpoint: RegistryEndpoint) {
-    var previousRequest = localStorage.getItem(endpoint.name + '.request');
+    var previousRequest = localStorage.getItem(endpoint.name + '.call');
     if (previousRequest) {
       try {
         this.request = eval('(' + previousRequest + ')');
@@ -131,7 +132,7 @@ export class ClientEndpointCallComponent implements OnInit {
   requestChanged(request: string) {
     try {
       this.request = eval('(' + request + ')');
-      localStorage.setItem(this.endpoint + '.request', JSON.stringify(this.request));
+      localStorage.setItem(this.endpoint + '.call', JSON.stringify(this.request));
     } catch (e) {
       // SyntaxError
     }
@@ -147,11 +148,12 @@ export class ClientEndpointCallComponent implements OnInit {
       return
     }
     this.endpoints = [];
-    this.registryService.getServiceEndpoints(this.service, this.version).subscribe(resp => {
-      this.endpoints = resp.endpoints ? resp.endpoints : [];
-      if (resp.endpoints && resp.endpoints.length) {
+    this.request = undefined;
+    this.registryService.getServiceHandlers(this.service, this.version).subscribe(resp => {
+      this.endpoints = resp.handlers ? resp.handlers : [];
+      if (resp.handlers && resp.handlers.length) {
         if (this.endpoint) {
-          resp.endpoints?.forEach(e => {
+          resp.handlers?.forEach(e => {
             if (e.name == this.endpoint) {
               this.selectedEndpoint = e;
               this.loadEndpointReuqest(this.selectedEndpoint);
@@ -194,8 +196,12 @@ export class ClientEndpointCallComponent implements OnInit {
             value = false;
             break;
           default:
-            console.log(v.type);
-            value = v.type;
+            if (v.type.startsWith('[]')) {
+              value = [];
+            } else {
+              console.log(v.type);
+              value = v.type;
+            }
         }
         payload[v.name] = value;
       })

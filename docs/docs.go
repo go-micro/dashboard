@@ -109,7 +109,7 @@ var doc = `{
                 }
             }
         },
-        "/api/client/endpoint/call": {
+        "/api/client/call": {
             "post": {
                 "security": [
                     {
@@ -119,7 +119,7 @@ var doc = `{
                 "tags": [
                     "Client"
                 ],
-                "operationId": "client_callEndpoint",
+                "operationId": "client_call",
                 "parameters": [
                     {
                         "description": "request",
@@ -128,6 +128,56 @@ var doc = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/client.callRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/client/publish": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Client"
+                ],
+                "operationId": "client_publish",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/client.publishRequest"
                         }
                     }
                 ],
@@ -213,7 +263,7 @@ var doc = `{
                 }
             }
         },
-        "/api/registry/service/endpoints": {
+        "/api/registry/service/handlers": {
             "get": {
                 "security": [
                     {
@@ -223,7 +273,7 @@ var doc = `{
                 "tags": [
                     "Registry"
                 ],
-                "operationId": "registry_getServiceEndpoints",
+                "operationId": "registry_getServiceHandlers",
                 "parameters": [
                     {
                         "type": "string",
@@ -243,7 +293,61 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/registry.getServiceEndpointsResponse"
+                            "$ref": "#/definitions/registry.getServiceHandlersResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/registry/service/subscribers": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Registry"
+                ],
+                "operationId": "registry_getServiceSubscribers",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "service name",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "service version",
+                        "name": "version",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/registry.getServiceSubscribersResponse"
                         }
                     },
                     "400": {
@@ -405,6 +509,21 @@ var doc = `{
                 }
             }
         },
+        "client.publishRequest": {
+            "type": "object",
+            "required": [
+                "message",
+                "topic"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "topic": {
+                    "type": "string"
+                }
+            }
+        },
         "registry.getServiceDetailResponse": {
             "type": "object",
             "properties": {
@@ -416,10 +535,10 @@ var doc = `{
                 }
             }
         },
-        "registry.getServiceEndpointsResponse": {
+        "registry.getServiceHandlersResponse": {
             "type": "object",
             "properties": {
-                "endpoints": {
+                "handlers": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/registry.registryEndpoint"
@@ -437,6 +556,17 @@ var doc = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/registry.registryServiceSummary"
+                    }
+                }
+            }
+        },
+        "registry.getServiceSubscribersResponse": {
+            "type": "object",
+            "properties": {
+                "subscribers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/registry.registryEndpoint"
                     }
                 }
             }
@@ -493,7 +623,7 @@ var doc = `{
                 "version"
             ],
             "properties": {
-                "endpoints": {
+                "handlers": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/registry.registryEndpoint"
@@ -512,6 +642,12 @@ var doc = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/registry.registryNode"
+                    }
+                },
+                "subscribers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/registry.registryEndpoint"
                     }
                 },
                 "version": {
