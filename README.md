@@ -4,13 +4,13 @@ Go micro dashboard is designed to make it as easy as possible for users to work 
 
 ## Features
 
-- [ ] Logo
+- [x] Logo
 - [x] Web UI
 - [x] Service discovery
 - [ ] Health check
 - [ ] Configure service
 - [x] Endpoint request
-- [ ] Broker messages
+- [x] Broker messages
 
 ## Installation
 
