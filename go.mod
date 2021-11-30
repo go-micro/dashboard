@@ -18,7 +18,6 @@ require (
 	github.com/asim/go-micro/plugins/registry/etcd/v4 v4.0.0-20211103025805-c5be9f560cdb
 	github.com/asim/go-micro/plugins/registry/eureka/v4 v4.0.0-20211124174154-b25d744f5c51
 	github.com/asim/go-micro/plugins/registry/gossip/v4 v4.0.0-20211124174154-b25d744f5c51
-	github.com/asim/go-micro/plugins/registry/kubernetes/v4 v4.0.0-20211101090014-adaa98e6cffe
 	github.com/asim/go-micro/plugins/registry/nacos/v4 v4.0.0-20211124174154-b25d744f5c51
 	github.com/asim/go-micro/plugins/registry/nats/v4 v4.0.0-20211124174154-b25d744f5c51
 	github.com/asim/go-micro/plugins/registry/zookeeper/v4 v4.0.0-20211118090700-90b3e4af0b58
@@ -28,7 +27,8 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/swaggo/gin-swagger v1.3.3
 	github.com/swaggo/swag v1.7.4
-	go-micro.dev/v4 v4.3.0
+	github.com/xpunch/go-micro-plugins/v4/registry/kubernetes v0.0.0-20211130092736-24f3679f2c21
+	go-micro.dev/v4 v4.4.0
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e
 )
 
