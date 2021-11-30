@@ -5,7 +5,7 @@
         "title": "Go Micro Dashboard",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {},
-        "version": "1.0.0"
+        "version": "1.1.0"
     },
     "basePath": "/",
     "paths": {
@@ -428,6 +428,19 @@
                         "description": "Internal Server Error",
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/version": {
+            "get": {
+                "operationId": "getVersion",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }

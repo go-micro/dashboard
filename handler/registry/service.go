@@ -17,14 +17,12 @@ func NewRouteRegistrar(registry registry.Registry) route.Registrar {
 	return service{registry: registry}
 }
 
-func (s service) RegisterAuthRoute(router gin.IRoutes) {
-	router.GET("/api/registry/services", s.GetServices)
-	router.GET("/api/registry/service", s.GetServiceDetail)
-	router.GET("/api/registry/service/handlers", s.GetServiceHandlers)
-	router.GET("/api/registry/service/subscribers", s.GetServiceSubscribers)
-}
-
-func (s service) RegisterNonAuthRoute(router gin.IRoutes) {
+func (s service) RegisterRoute(router gin.IRoutes) {
+	router.Use(route.AuthRequired()).
+		GET("/api/registry/services", s.GetServices).
+		GET("/api/registry/service", s.GetServiceDetail).
+		GET("/api/registry/service/handlers", s.GetServiceHandlers).
+		GET("/api/registry/service/subscribers", s.GetServiceSubscribers)
 }
 
 // @Security ApiKeyAuth

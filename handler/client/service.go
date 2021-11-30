@@ -3,6 +3,7 @@ package client
 import (
 	"context"
 	"encoding/json"
+	"sync"
 	"time"
 
 	cgrpc "github.com/asim/go-micro/plugins/client/grpc/v4"
@@ -20,18 +21,19 @@ import (
 type service struct {
 	client   client.Client
 	registry registry.Registry
+
+	clients   map[string]client.Client
+	clientsMu sync.Mutex
 }
 
 func NewRouteRegistrar(client client.Client, registry registry.Registry) route.Registrar {
-	return service{client: client, registry: registry}
+	return &service{client: client, registry: registry}
 }
 
-func (s service) RegisterAuthRoute(router gin.IRoutes) {
-	router.POST("/api/client/call", s.Call)
-	router.POST("/api/client/publish", s.Publish)
-}
-
-func (s service) RegisterNonAuthRoute(router gin.IRoutes) {
+func (s *service) RegisterRoute(router gin.IRoutes) {
+	router.Use(route.AuthRequired()).
+		POST("/api/client/call", s.Call).
+		POST("/api/client/publish", s.Publish)
 }
 
 // @Security ApiKeyAuth
@@ -70,16 +72,7 @@ func (s *service) Call(ctx *gin.Context) {
 			ctx.Render(400, render.String{Format: "service node not found"})
 			return
 		}
-		switch srv.Nodes[0].Metadata["server"] {
-		case "grpc":
-			c = cgrpc.NewClient()
-		case "http":
-			c = chttp.NewClient()
-		case "mucp":
-			c = cmucp.NewClient()
-		default:
-			c = s.client
-		}
+		c = s.getClient(srv.Nodes[0].Metadata["server"])
 		break
 	}
 	if c == nil {
@@ -138,4 +131,34 @@ func (s *service) Publish(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(200, gin.H{"success": true})
+}
+
+func (s *service) getClient(serverType string) client.Client {
+	if serverType == s.client.String() {
+		return s.client
+	}
+	s.clientsMu.Lock()
+	defer s.clientsMu.Unlock()
+	if s.clients == nil {
+		s.clients = make(map[string]client.Client)
+	} else {
+		if c, ok := s.clients[serverType]; ok {
+			return c
+		}
+	}
+	var c client.Client
+	switch serverType {
+	case "grpc":
+		c = cgrpc.NewClient()
+		s.clients[serverType] = c
+	case "http":
+		c = chttp.NewClient()
+		s.clients[serverType] = c
+	case "mucp":
+		c = cmucp.NewClient()
+		s.clients[serverType] = c
+	default:
+		c = s.client
+	}
+	return c
 }

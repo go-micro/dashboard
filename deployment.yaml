@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: micro
+  namespace: micro
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: micro-registry
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - list
+      - patch
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: micro-registry
+  namespace: micro
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: micro-registry
+subjects:
+  - kind: ServiceAccount
+    name: micro
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: micro-dashboard
+  namespace: micro
+  labels:
+    app: micro-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro-dashboard
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: micro-dashboard
+    spec:
+      containers:
+        - image: xpunch/go-micro-dashboard:latest
+          imagePullPolicy: IfNotPresent
+          name: micro-dashboard
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: MICRO_REGISTRY
+              value: "kubernetes"
+            - name: MICRO_CLIENT_RETRIES
+              value: "0"
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "0.25"
+            requests:
+              memory: 512Mi
+              cpu: "0.25"
+      serviceAccountName: micro

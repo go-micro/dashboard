@@ -50,7 +50,19 @@ fileb0x b0x.yaml
 ## Docker
 
 ```
-docker run -d --name "go-micro-dashboard" -p "4000:4000" xpunch/go-micro-dashboard
+docker run -d --name micro-dashboard -p 8082:8082 xpunch/go-micro-dashboard:latest
+```
+
+## Docker Compose
+
+```
+docker-compose -f docker-compose.yml up -d
+```
+
+## Kubernetes
+
+```
+kubectl apply -f deployment.yaml
 ```
 
 ### Community

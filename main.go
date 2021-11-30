@@ -9,13 +9,8 @@ import (
 	"go-micro.dev/v4/logger"
 )
 
-const (
-	Name    = "go.micro.dashboard"
-	Version = "1.0.0"
-)
-
 // @title Go Micro Dashboard
-// @version 1.0.0
+// @version 1.1.0
 // @description go micro dashboard restful-api
 // @termsOfService http://swagger.io/terms/
 // @BasePath /
@@ -29,9 +24,9 @@ func main() {
 	}
 	srv := micro.NewService(micro.Server(mhttp.NewServer()))
 	opts := []micro.Option{
-		micro.Name(Name),
+		micro.Name(config.Name),
 		micro.Address(config.GetServerConfig().Address),
-		micro.Version(Version),
+		micro.Version(config.Version),
 	}
 	srv.Init(opts...)
 	if config.GetServerConfig().Env == config.EnvProd {

@@ -448,6 +448,19 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/version": {
+            "get": {
+                "operationId": "getVersion",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -750,7 +763,7 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "1.0.0",
+	Version:     "1.1.0",
 	Host:        "",
 	BasePath:    "/",
 	Schemes:     []string{},

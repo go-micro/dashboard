@@ -44,8 +44,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         console.log(ev);
         if (ev instanceof HttpErrorResponse) {
           this.blobToText(ev.error).subscribe((resp) => {
-            var msg = resp ? resp : ev.statusText;
-            this.notification.error('Error', `${ev.status}: ${ev.url} ${msg}`, { nzDuration: 5000 });
+            this.notification.error(ev.statusText, `${resp}\n${ev.url}`, { nzDuration: 15000 });
           });
           return throwError(ev);
         }
@@ -94,7 +93,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         };
         reader.readAsText(blob);
       } else {
-        observer.next(blob && blob.error ? blob.error : JSON.stringify(blob));
+        observer.next(blob && blob.error ? blob.error : '');
         observer.complete();
       }
     });
