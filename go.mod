@@ -9,25 +9,25 @@ require (
 	github.com/asim/go-micro/plugins/broker/nats/v4 v4.0.0-20211124174154-b25d744f5c51
 	github.com/asim/go-micro/plugins/broker/rabbitmq/v4 v4.0.0-20211124174154-b25d744f5c51
 	github.com/asim/go-micro/plugins/broker/redis/v4 v4.0.0-20211124174154-b25d744f5c51
-	github.com/asim/go-micro/plugins/client/grpc/v4 v4.0.0-20211103025805-c5be9f560cdb
-	github.com/asim/go-micro/plugins/client/http/v4 v4.0.0-20211111140334-799b8d6a6559
-	github.com/asim/go-micro/plugins/client/mucp/v4 v4.0.0-20211111140334-799b8d6a6559
-	github.com/asim/go-micro/plugins/config/encoder/toml/v4 v4.0.0-20211103025805-c5be9f560cdb
-	github.com/asim/go-micro/plugins/config/encoder/yaml/v4 v4.0.0-20211103025805-c5be9f560cdb
-	github.com/asim/go-micro/plugins/registry/consul/v4 v4.0.0-20211118090700-90b3e4af0b58
-	github.com/asim/go-micro/plugins/registry/etcd/v4 v4.0.0-20211103025805-c5be9f560cdb
+	github.com/asim/go-micro/plugins/client/grpc/v4 v4.0.0-20211124174154-b25d744f5c51
+	github.com/asim/go-micro/plugins/client/http/v4 v4.0.0-20211201082631-1e4dd94b71f1
+	github.com/asim/go-micro/plugins/client/mucp/v4 v4.0.0-20211201082631-1e4dd94b71f1
+	github.com/asim/go-micro/plugins/config/encoder/toml/v4 v4.0.0-20211201082631-1e4dd94b71f1
+	github.com/asim/go-micro/plugins/config/encoder/yaml/v4 v4.0.0-20211201082631-1e4dd94b71f1
+	github.com/asim/go-micro/plugins/registry/consul/v4 v4.0.0-20211124174154-b25d744f5c51
+	github.com/asim/go-micro/plugins/registry/etcd/v4 v4.0.0-20211124174154-b25d744f5c51
 	github.com/asim/go-micro/plugins/registry/eureka/v4 v4.0.0-20211124174154-b25d744f5c51
 	github.com/asim/go-micro/plugins/registry/gossip/v4 v4.0.0-20211124174154-b25d744f5c51
+	github.com/asim/go-micro/plugins/registry/kubernetes/v4 v4.0.0-20211201082631-1e4dd94b71f1
 	github.com/asim/go-micro/plugins/registry/nacos/v4 v4.0.0-20211124174154-b25d744f5c51
 	github.com/asim/go-micro/plugins/registry/nats/v4 v4.0.0-20211124174154-b25d744f5c51
-	github.com/asim/go-micro/plugins/registry/zookeeper/v4 v4.0.0-20211118090700-90b3e4af0b58
-	github.com/asim/go-micro/plugins/server/http/v4 v4.0.0-20211103025805-c5be9f560cdb
+	github.com/asim/go-micro/plugins/registry/zookeeper/v4 v4.0.0-20211124174154-b25d744f5c51
+	github.com/asim/go-micro/plugins/server/http/v4 v4.0.0-20211201082631-1e4dd94b71f1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/gin-gonic/gin v1.7.4
+	github.com/gin-gonic/gin v1.7.7
 	github.com/pkg/errors v0.9.1
 	github.com/swaggo/gin-swagger v1.3.3
-	github.com/swaggo/swag v1.7.4
-	github.com/xpunch/go-micro-plugins/v4/registry/kubernetes v0.0.0-20211130092736-24f3679f2c21
+	github.com/swaggo/swag v1.7.6
 	go-micro.dev/v4 v4.4.0
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e
 )
