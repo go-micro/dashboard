@@ -59,8 +59,18 @@
         </form>
     </div>
     <div nz-col nzSpan="12" class="p-sm">
-        <nz-card nzTitle="Response">
+        <nz-card nzTitle="Response" [nzExtra]="actions">
             <p style="overflow-wrap: break-word;white-space: break-spaces;">{{response|json}}</p>
         </nz-card>
+        <ng-template #actions>
+            <nz-space nzSize="middle">
+                <a *nzSpaceItem (click)="copyToClipboard(response)">
+                    <i nz-icon nzType="copy" nzTheme="outline"></i>
+                </a>
+                <a *nzSpaceItem (click)="response={}">
+                    <i nz-icon nzType="clear" nzTheme="outline"></i>
+                </a>
+            </nz-space>
+        </ng-template>
     </div>
 </div>

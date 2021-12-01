@@ -8,7 +8,7 @@ import { NzIconService } from 'ng-zorro-antd/icon';
 
 import { ICONS } from '../../../style-icons';
 import { ICONS_AUTO } from '../../../style-icons-auto';
-import { AccountServiceProxy } from 'src/app/shared/service-proxies/service-proxies';
+import { AccountServiceProxy, ServiceProxy } from 'src/app/shared/service-proxies/service-proxies';
 
 /**
  * Used for application startup
@@ -22,7 +22,8 @@ export class StartupService {
     private settingService: SettingsService,
     private aclService: ACLService,
     private titleService: TitleService,
-    private accountService: AccountServiceProxy
+    private accountService: AccountServiceProxy,
+    private readonly serviceProxy: ServiceProxy,
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }
@@ -68,10 +69,18 @@ export class StartupService {
             text: 'Call',
             link: '/client/call',
             icon: { type: 'icon', value: 'api' }
+          },
+          {
+            text: 'Publish',
+            link: '/client/publish',
+            icon: { type: 'icon', value: 'sound' }
           }
         ]
       }
     ]);
+    this.serviceProxy.getVersion().subscribe(resp => {
+      this.settingService.setData('version', resp.version);
+    });
     // Can be set page suffix title, https://ng-alain.com/theme/title
     this.titleService.suffix = app.name;
     return this.accountService.profile().pipe(

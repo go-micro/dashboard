@@ -17,6 +17,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { LayoutBasicComponent } from './basic/basic.component';
 import { HeaderClearStorageComponent } from './basic/widgets/clear-storage.component';
@@ -59,6 +60,7 @@ const PASSPORT = [
     NzBadgeModule,
     NzAvatarModule,
     NzIconModule,
+    NzModalModule,
   ],
   declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT],
   exports: [...COMPONENTS, ...PASSPORT],

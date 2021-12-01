@@ -8,7 +8,7 @@ export const environment = {
   production: false,
   useHash: true,
   api: {
-    baseUrl: 'http://localhost:4000'
+    baseUrl: 'http://localhost:8082'
   }
 } as Environment;
 

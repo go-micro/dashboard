@@ -17,7 +17,7 @@
 
 <nz-collapse>
     <nz-collapse-panel *ngFor="let service of services" [nzHeader]="service.version" nzActive="true">
-        <nz-table *ngIf="service.nodes" #basicTable [nzData]="service.nodes" [nzFrontPagination]="false"
+        <nz-table #nodeTable *ngIf="service.nodes" [nzData]="service.nodes" [nzFrontPagination]="false"
             [nzBordered]="true">
             <thead>
                 <tr>
@@ -27,41 +27,74 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let data of basicTable.data">
+                <tr *ngFor="let data of nodeTable.data">
                     <td>{{data.id}}</td>
                     <td>{{data.address}}</td>
                     <td>{{data.metadata|json}}</td>
                 </tr>
             </tbody>
         </nz-table>
-        <nz-table #endpointTable *ngIf="service.endpoints" [nzData]="service.endpoints" nzTitle="Endpoints"
-            [nzFrontPagination]="false" [nzBordered]="true">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Request</th>
-                    <th>Response</th>
-                    <th>Metadata</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let data of endpointTable.data">
-                    <td>
-                        {{data.name}}
-                        <a *ngIf="data.name!='Func'" (click)="gotoCall(service.name, service.version, data.name)">
-                            Call
-                        </a>
-                    </td>
-                    <td>
-                        <pre class="json">{{data.request|endpoint}}</pre>
-                    </td>
-                    <td>
-                        <pre class="json">{{data.response|endpoint}}</pre>
-                    </td>
-                    <td>{{data.metadata|json}}</td>
-                </tr>
-            </tbody>
-        </nz-table>
+        <nz-collapse nzGhost *ngIf="service.handlers">
+            <nz-collapse-panel [nzHeader]="'Handlers ('+service.handlers.length+')'" nzExpandedIcon="double-right"
+                nzActive="true">
+                <nz-table #handlerTable [nzData]="service.handlers" [nzFrontPagination]="false" [nzBordered]="true">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Request</th>
+                            <th>Response</th>
+                            <th>Metadata</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of handlerTable.data">
+                            <td>
+                                {{data.name}}
+                                <a (click)="gotoCall(service.name, service.version, data.name)">
+                                    Call
+                                </a>
+                            </td>
+                            <td>
+                                <pre class="json">{{data.request|endpoint}}</pre>
+                            </td>
+                            <td>
+                                <pre class="json">{{data.response|endpoint}}</pre>
+                            </td>
+                            <td>{{data.metadata|json}}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </nz-collapse-panel>
+        </nz-collapse>
+        <nz-collapse nzGhost *ngIf="service.subscribers">
+            <nz-collapse-panel [nzHeader]="'Subscribers ('+service.subscribers.length+')'" nzExpandedIcon="double-right"
+                nzActive="true">
+                <nz-table #subscriberTable [nzData]="service.subscribers" [nzFrontPagination]="false"
+                    [nzBordered]="true">
+                    <thead>
+                        <tr>
+                            <th>Topic</th>
+                            <th>Payload</th>
+                            <th>Metadata</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of subscriberTable.data">
+                            <td>
+                                {{data.name}}
+                                <a (click)="gotoPublish(service.name, service.version, data.name)">
+                                    Publish
+                                </a>
+                            </td>
+                            <td>
+                                <pre class="json">{{data.request|endpoint}}</pre>
+                            </td>
+                            <td>{{data.metadata|json}}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </nz-collapse-panel>
+        </nz-collapse>
     </nz-collapse-panel>
 </nz-collapse>
 

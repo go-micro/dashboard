@@ -3,6 +3,11 @@ package config
 import "time"
 
 const (
+	Name    = "go.micro.dashboard"
+	Version = "1.1.0"
+)
+
+const (
 	EnvDev  = "dev"
 	EnvProd = "prod"
 )

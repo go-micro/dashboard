@@ -25,6 +25,7 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzBackTopModule } from 'ng-zorro-antd/back-top';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 export const SHARED_ZORRO_MODULES = [
   NzFormModule,
@@ -54,4 +55,5 @@ export const SHARED_ZORRO_MODULES = [
   NzBackTopModule,
   NzPageHeaderModule,
   NzCollapseModule,
+  NzSpaceModule,
 ];

@@ -5,7 +5,7 @@
         "title": "Go Micro Dashboard",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {},
-        "version": "1.0.0"
+        "version": "1.1.0"
     },
     "basePath": "/",
     "paths": {
@@ -93,7 +93,7 @@
                 }
             }
         },
-        "/api/client/endpoint/call": {
+        "/api/client/call": {
             "post": {
                 "security": [
                     {
@@ -103,7 +103,7 @@
                 "tags": [
                     "Client"
                 ],
-                "operationId": "client_callEndpoint",
+                "operationId": "client_call",
                 "parameters": [
                     {
                         "description": "request",
@@ -112,6 +112,56 @@
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/client.callRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/client/publish": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Client"
+                ],
+                "operationId": "client_publish",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/client.publishRequest"
                         }
                     }
                 ],
@@ -197,7 +247,7 @@
                 }
             }
         },
-        "/api/registry/service/endpoints": {
+        "/api/registry/service/handlers": {
             "get": {
                 "security": [
                     {
@@ -207,7 +257,7 @@
                 "tags": [
                     "Registry"
                 ],
-                "operationId": "registry_getServiceEndpoints",
+                "operationId": "registry_getServiceHandlers",
                 "parameters": [
                     {
                         "type": "string",
@@ -227,7 +277,61 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/registry.getServiceEndpointsResponse"
+                            "$ref": "#/definitions/registry.getServiceHandlersResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/registry/service/subscribers": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Registry"
+                ],
+                "operationId": "registry_getServiceSubscribers",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "service name",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "service version",
+                        "name": "version",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/registry.getServiceSubscribersResponse"
                         }
                     },
                     "400": {
@@ -328,6 +432,19 @@
                     }
                 }
             }
+        },
+        "/version": {
+            "get": {
+                "operationId": "getVersion",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -389,6 +506,21 @@
                 }
             }
         },
+        "client.publishRequest": {
+            "type": "object",
+            "required": [
+                "message",
+                "topic"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "topic": {
+                    "type": "string"
+                }
+            }
+        },
         "registry.getServiceDetailResponse": {
             "type": "object",
             "properties": {
@@ -400,10 +532,10 @@
                 }
             }
         },
-        "registry.getServiceEndpointsResponse": {
+        "registry.getServiceHandlersResponse": {
             "type": "object",
             "properties": {
-                "endpoints": {
+                "handlers": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/registry.registryEndpoint"
@@ -421,6 +553,17 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/registry.registryServiceSummary"
+                    }
+                }
+            }
+        },
+        "registry.getServiceSubscribersResponse": {
+            "type": "object",
+            "properties": {
+                "subscribers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/registry.registryEndpoint"
                     }
                 }
             }
@@ -477,7 +620,7 @@
                 "version"
             ],
             "properties": {
-                "endpoints": {
+                "handlers": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/registry.registryEndpoint"
@@ -496,6 +639,12 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/registry.registryNode"
+                    }
+                },
+                "subscribers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/registry.registryEndpoint"
                     }
                 },
                 "version": {

@@ -21,7 +21,7 @@ import (
 var _cfg *Config = &Config{
 	Server: ServerConfig{
 		Env:     EnvProd,
-		Address: ":4000",
+		Address: ":8082",
 		Auth: AuthConfig{
 			Username:        "admin",
 			Password:        "123456",
@@ -29,7 +29,7 @@ var _cfg *Config = &Config{
 			TokenExpiration: 24 * time.Hour,
 		},
 		Swagger: SwaggerConfig{
-			Host: "localhost",
+			Host: "localhost:8082",
 			Base: "/",
 		},
 	},

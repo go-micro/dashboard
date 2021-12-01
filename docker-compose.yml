@@ -3,9 +3,9 @@ version: "3"
 services:
   dashboard:
     image: xpunch/go-micro-dashboard:latest
-    container_name: go-micro-dashboard
+    container_name: micro-dashboard
     ports:
-      - "4000:4000"
+      - "8082:8082"
     environment:
       - MICRO_REGISTRY=etcd
       - MICRO_REGISTRY_ADDRESS=etcd

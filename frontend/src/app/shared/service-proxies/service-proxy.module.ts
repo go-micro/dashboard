@@ -8,6 +8,7 @@ import * as ApiServiceProxies from './service-proxies';
     ApiServiceProxies.ClientServiceProxy,
     ApiServiceProxies.RegistryServiceProxy,
     ApiServiceProxies.StatisticsServiceProxy,
+    ApiServiceProxies.ServiceProxy,
   ]
 })
 export class ServiceProxyModule {
