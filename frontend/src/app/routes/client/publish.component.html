@@ -27,7 +27,7 @@
                     </nz-select>
                 </nz-form-control>
             </nz-form-item>
-            <nz-form-item *ngIf="selectedService">
+            <nz-form-item *ngIf="selectedService&&selectedService.versions">
                 <nz-form-control>
                     <nz-select nzShowSearch name="version" nzPlaceHolder="Select version" [(ngModel)]="version"
                         (ngModelChange)="versionChanged($event)">

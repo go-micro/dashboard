@@ -52,9 +52,9 @@ export class ServiceDetailComponent implements OnInit {
     this.router.navigate(['/client/call'], navigationExtras);
   }
 
-  gotoPublish(service: string, version: string, endpoint: string) {
+  gotoPublish(service: string, version: string, topic: string) {
     let navigationExtras: NavigationExtras = {
-      queryParams: { 'service': service, 'version': version, 'endpoint': endpoint }
+      queryParams: { 'service': service, 'version': version, 'topic': topic }
     };
     this.router.navigate(['/client/publish'], navigationExtras);
   }

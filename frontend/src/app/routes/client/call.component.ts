@@ -197,7 +197,11 @@ export class ClientCallComponent implements OnInit {
             break;
           default:
             if (v.type.startsWith('[]')) {
-              value = [];
+              if (v.type.endsWith('byte') || v.type.endsWith('int8')) {
+                value = 'base64';
+              } else {
+                value = [];
+              }
             } else {
               console.log(v.type);
               value = v.type;
