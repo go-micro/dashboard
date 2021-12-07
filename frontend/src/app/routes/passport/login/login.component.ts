@@ -1,11 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Optional } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StartupService } from '@core';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
-import { DA_SERVICE_TOKEN, ITokenService, SocialOpenType, SocialService } from '@delon/auth';
-import { SettingsService, _HttpClient } from '@delon/theme';
-import { environment } from '@env/environment';
+import { DA_SERVICE_TOKEN, ITokenService, SocialService } from '@delon/auth';
 import { NzTabChangeEvent } from 'ng-zorro-antd/tabs';
 import { finalize } from 'rxjs/operators';
 import { AccountServiceProxy, LoginRequest } from 'src/app/shared/service-proxies/service-proxies';
@@ -21,14 +19,11 @@ export class UserLoginComponent {
   constructor(
     fb: FormBuilder,
     private router: Router,
-    private settingsService: SettingsService,
-    private socialService: SocialService,
     @Optional()
     @Inject(ReuseTabService)
     private reuseTabService: ReuseTabService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private startupSrv: StartupService,
-    private http: _HttpClient,
     private cdr: ChangeDetectorRef,
     private accountService: AccountServiceProxy,
   ) {

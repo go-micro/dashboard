@@ -9,7 +9,6 @@ import {
 } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { ALAIN_I18N_TOKEN, _HttpClient } from '@delon/theme';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable, of, throwError } from 'rxjs';
@@ -62,10 +61,6 @@ export class DefaultInterceptor implements HttpInterceptor {
     const lang = this.injector.get(ALAIN_I18N_TOKEN).currentLang;
     if (!headers?.has('Accept-Language') && lang) {
       res['Accept-Language'] = lang;
-    }
-    const token = this.injector.get<ITokenService>(DA_SERVICE_TOKEN).get()?.token
-    if (token) {
-      res['Authorization'] = 'Bearer ' + token;
     }
     return res;
   }
