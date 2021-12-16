@@ -7,10 +7,16 @@ Go micro dashboard is designed to make it as easy as possible for users to work 
 - [x] Logo
 - [x] Web UI
 - [x] Service discovery
-- [ ] Health check
+  - [ ] Register service
+  - [ ] Deregister service
+- [x] Health check
 - [ ] Configure service
-- [x] Endpoint request
-- [x] Broker messages
+- [x] Synchronous communication
+  - [x] RPC
+  - [ ] Stream
+- [x] Asynchronous communication
+  - [x] Publish
+  - [ ] Subscribe
 
 ## Installation
 

@@ -13,6 +13,7 @@ import (
 	"github.com/gin-gonic/gin/render"
 	"github.com/xpunch/go-micro-dashboard/handler/route"
 	"go-micro.dev/v4/client"
+	debug "go-micro.dev/v4/debug/proto"
 	"go-micro.dev/v4/errors"
 	"go-micro.dev/v4/registry"
 	"go-micro.dev/v4/selector"
@@ -33,7 +34,8 @@ func NewRouteRegistrar(client client.Client, registry registry.Registry) route.R
 func (s *service) RegisterRoute(router gin.IRoutes) {
 	router.Use(route.AuthRequired()).
 		POST("/api/client/call", s.Call).
-		POST("/api/client/publish", s.Publish)
+		POST("/api/client/publish", s.Publish).
+		POST("/api/client/healthcheck", s.HealthCheck)
 }
 
 // @Security ApiKeyAuth
@@ -97,6 +99,62 @@ func (s *service) Call(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(200, resp)
+}
+
+// @Security ApiKeyAuth
+// @Tags Client
+// @ID client_healthCheck
+// @Param	input	body		healthCheckRequest	true		"request"
+// @Success 200 	{object}	object				"success"
+// @Failure 400 	{object}	string
+// @Failure 401 	{object}	string
+// @Failure 500		{object}	string
+// @Router /api/client/healthcheck [post]
+func (s *service) HealthCheck(ctx *gin.Context) {
+	var req healthCheckRequest
+	if err := ctx.ShouldBindJSON(&req); nil != err {
+		ctx.Render(400, render.String{Format: err.Error()})
+		return
+	}
+	services, err := s.registry.GetService(req.Service)
+	if err != nil {
+		ctx.JSON(200, gin.H{"success": false, "error": err.Error()})
+		return
+	}
+	var c client.Client
+	for _, srv := range services {
+		if len(req.Version) > 0 && req.Version != srv.Version {
+			continue
+		}
+		for _, n := range srv.Nodes {
+			if req.Address == n.Address {
+				c = s.getClient(n.Metadata["server"])
+				break
+			}
+		}
+	}
+	if c == nil {
+		ctx.JSON(200, gin.H{"success": false, "error": "service node not found"})
+		return
+	}
+	callOpts := []client.CallOption{
+		client.WithAddress(req.Address),
+		client.WithSelectOption(selector.WithFilter(selector.FilterVersion(req.Version))),
+	}
+	if req.Timeout > 0 {
+		callOpts = append(callOpts, client.WithRequestTimeout(time.Duration(req.Timeout)*time.Second))
+	}
+	debugService := debug.NewDebugService(req.Service, c)
+	reply, err := debugService.Health(ctx, &debug.HealthRequest{}, callOpts...)
+	if err != nil {
+		if merr := errors.Parse(err.Error()); merr != nil {
+			ctx.JSON(200, gin.H{"success": false, "error": merr})
+		} else {
+			ctx.JSON(200, gin.H{"success": false, "error": err.Error})
+		}
+		return
+	}
+	ctx.JSON(200, gin.H{"success": true, "status": reply.Status})
 }
 
 // @Security ApiKeyAuth

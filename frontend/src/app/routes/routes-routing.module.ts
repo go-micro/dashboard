@@ -11,8 +11,9 @@ import { ClientPublishComponent } from './client/publish.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
-import { ServiceDetailComponent } from './services/detail.component';
 import { ServicesListComponent } from './services/list.component';
+import { ServiceDetailComponent } from './services/detail.component';
+import { ServiceNodesComponent } from './services/nodes.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard', titleI18n: 'dashboard' } },
       { path: 'services', component: ServicesListComponent, data: { title: 'Services', titleI18n: 'services' } },
       { path: 'service/detail', component: ServiceDetailComponent },
+      { path: 'service/nodes', component: ServiceNodesComponent },
       { path: 'client/call', component: ClientCallComponent, data: { title: 'Call', titleI18n: 'call' } },
       { path: 'client/publish', component: ClientPublishComponent, data: { title: 'Call', titleI18n: 'call' } },
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },

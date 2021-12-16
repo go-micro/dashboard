@@ -12,3 +12,10 @@ type publishRequest struct {
 	Topic   string `json:"topic" binding:"required"`
 	Message string `json:"message" binding:"required"`
 }
+
+type healthCheckRequest struct {
+	Service string `json:"service" binding:"required"`
+	Version string `json:"version" binding:"required"`
+	Address string `json:"address" binding:"required"`
+	Timeout int64  `json:"timeout"`
+}

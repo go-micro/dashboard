@@ -10,7 +10,7 @@ import (
 )
 
 // @title Go Micro Dashboard
-// @version 1.2.0
+// @version 1.3.0
 // @description go micro dashboard restful-api
 // @termsOfService http://swagger.io/terms/
 // @BasePath /
