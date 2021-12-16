@@ -4,8 +4,9 @@ import { SharedModule } from '@shared';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserLoginComponent } from './passport/login/login.component';
 import { RouteRoutingModule } from './routes-routing.module';
-import { ServiceDetailComponent } from './services/detail.component';
 import { ServicesListComponent } from './services/list.component';
+import { ServiceDetailComponent } from './services/detail.component';
+import { ServiceNodesComponent } from './services/nodes.component';
 import { ClientCallComponent } from './client/call.component';
 import { ClientPublishComponent } from './client/publish.component';
 
@@ -14,6 +15,7 @@ const COMPONENTS: Array<Type<void>> = [
   UserLoginComponent,
   ServicesListComponent,
   ServiceDetailComponent,
+  ServiceNodesComponent,
   ClientCallComponent,
   ClientPublishComponent,
 ];

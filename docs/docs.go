@@ -158,6 +158,56 @@ var doc = `{
                 }
             }
         },
+        "/api/client/healthcheck": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Client"
+                ],
+                "operationId": "client_healthCheck",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/client.healthCheckRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/client/publish": {
             "post": {
                 "security": [
@@ -293,6 +343,45 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/registry.getServiceHandlersResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/registry/service/nodes": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Registry"
+                ],
+                "operationId": "registry_getNodes",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/registry.getNodeListResponse"
                         }
                     },
                     "400": {
@@ -521,6 +610,28 @@ var doc = `{
                 }
             }
         },
+        "client.healthCheckRequest": {
+            "type": "object",
+            "required": [
+                "address",
+                "service",
+                "version"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "service": {
+                    "type": "string"
+                },
+                "timeout": {
+                    "type": "integer"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
         "client.publishRequest": {
             "type": "object",
             "required": [
@@ -533,6 +644,17 @@ var doc = `{
                 },
                 "topic": {
                     "type": "string"
+                }
+            }
+        },
+        "registry.getNodeListResponse": {
+            "type": "object",
+            "properties": {
+                "services": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/registry.registryServiceNodes"
+                    }
                 }
             }
         },
@@ -604,6 +726,9 @@ var doc = `{
                 },
                 "response": {
                     "$ref": "#/definitions/registry.registryValue"
+                },
+                "stream": {
+                    "type": "boolean"
                 }
             }
         },
@@ -625,6 +750,31 @@ var doc = `{
                     "additionalProperties": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "registry.registryNodeDetail": {
+            "type": "object",
+            "required": [
+                "address",
+                "id",
+                "version"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "version": {
+                    "type": "string"
                 }
             }
         },
@@ -664,6 +814,20 @@ var doc = `{
                 },
                 "version": {
                     "type": "string"
+                }
+            }
+        },
+        "registry.registryServiceNodes": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "nodes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/registry.registryNodeDetail"
+                    }
                 }
             }
         },
@@ -762,7 +926,7 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "1.2.0",
+	Version:     "1.3.0",
 	Host:        "",
 	BasePath:    "/",
 	Schemes:     []string{},

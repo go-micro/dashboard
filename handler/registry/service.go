@@ -22,7 +22,8 @@ func (s service) RegisterRoute(router gin.IRoutes) {
 		GET("/api/registry/services", s.GetServices).
 		GET("/api/registry/service", s.GetServiceDetail).
 		GET("/api/registry/service/handlers", s.GetServiceHandlers).
-		GET("/api/registry/service/subscribers", s.GetServiceSubscribers)
+		GET("/api/registry/service/subscribers", s.GetServiceSubscribers).
+		GET("/api/registry/service/nodes", s.GetServiceNodes)
 }
 
 // @Security ApiKeyAuth
@@ -159,6 +160,7 @@ func (s *service) GetServiceHandlers(ctx *gin.Context) {
 			handlers = append(handlers, registryEndpoint{
 				Name:    e.Name,
 				Request: convertRegistryValue(e.Request),
+				Stream:  isStream(e),
 			})
 		}
 		resp.Handlers = handlers
@@ -210,11 +212,78 @@ func (s *service) GetServiceSubscribers(ctx *gin.Context) {
 	ctx.JSON(200, resp)
 }
 
+// @Security ApiKeyAuth
+// @Tags Registry
+// @ID registry_getNodes
+// @Success 200 	{object}	getNodeListResponse
+// @Failure 400 	{object}	string
+// @Failure 401 	{object}	string
+// @Failure 500		{object}	string
+// @Router /api/registry/service/nodes [get]
+func (s *service) GetServiceNodes(ctx *gin.Context) {
+	serviceNames, err := s.registry.ListServices()
+	if err != nil {
+		ctx.Render(500, render.String{Format: err.Error()})
+		return
+	}
+	sCache := make(map[string]map[string]registryNodeDetail)
+	for _, sn := range serviceNames {
+		if _, ok := sCache[sn.Name]; ok {
+			continue
+		}
+		sv, err := s.registry.GetService(sn.Name)
+		if err != nil {
+			ctx.Render(500, render.String{Format: err.Error()})
+			return
+		}
+		nCache := make(map[string]registryNodeDetail)
+		for _, v := range sv {
+			for _, n := range v.Nodes {
+				if _, ok := nCache[n.Id]; ok {
+					continue
+				}
+				nCache[n.Id] = registryNodeDetail{
+					Id:       n.Id,
+					Version:  v.Version,
+					Address:  n.Address,
+					Metadata: n.Metadata,
+				}
+			}
+		}
+		sCache[sn.Name] = nCache
+	}
+	resp := getNodeListResponse{Services: make([]registryServiceNodes, 0)}
+	for k, v := range sCache {
+		nodes := make([]registryNodeDetail, 0, len(v))
+		for _, n := range v {
+			nodes = append(nodes, n)
+		}
+		sort.Slice(nodes, func(i, j int) bool {
+			return nodes[i].Id < nodes[j].Id
+		})
+		resp.Services = append(resp.Services, registryServiceNodes{Name: k, Nodes: nodes})
+	}
+	sort.Slice(resp.Services, func(i, j int) bool {
+		return resp.Services[i].Name < resp.Services[j].Name
+	})
+	ctx.JSON(200, resp)
+}
+
 func isSubscriber(ep *registry.Endpoint) bool {
 	if ep == nil || len(ep.Metadata) == 0 {
 		return false
 	}
 	if s, ok := ep.Metadata["subscriber"]; ok && s == "true" {
+		return true
+	}
+	return false
+}
+
+func isStream(ep *registry.Endpoint) bool {
+	if ep == nil || len(ep.Metadata) == 0 {
+		return false
+	}
+	if s, ok := ep.Metadata["stream"]; ok && s == "true" {
 		return true
 	}
 	return false

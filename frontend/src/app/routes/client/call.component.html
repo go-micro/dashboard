@@ -52,6 +52,13 @@
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
+                <nz-form-control>
+                    Timeout(Seconds)
+                    <nz-input-number name="timeout" nzPlaceHolder="timeout" [(ngModel)]="timeout" [nzMin]="1"
+                        [nzMax]="60" [nzStep]="1"></nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
                 <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="loading" nzBlock>
                     Call
                 </button>

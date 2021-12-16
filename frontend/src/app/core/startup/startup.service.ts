@@ -58,6 +58,11 @@ export class StartupService {
             text: 'Services',
             link: '/services',
             icon: { type: 'icon', value: 'cloud' }
+          },
+          {
+            text: 'Nodes',
+            link: '/service/nodes',
+            icon: { type: 'icon', value: 'apartment' }
           }
         ]
       },

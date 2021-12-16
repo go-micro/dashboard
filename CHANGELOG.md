@@ -1,3 +1,6 @@
+### 1.3.0 （2021/12/16)
+> 1. Support service nodes health check, but http server type is unsupported currently.
+
 ### 1.2.0 （2021/12/07)
 > 1. Update login page, using new logo and icon.
 > 2. Using delon auth config.
