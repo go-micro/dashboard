@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
-	"github.com/xpunch/go-micro-dashboard/handler/route"
+	"github.com/go-micro/dashboard/handler/route"
 	"go-micro.dev/v4/registry"
 )
 

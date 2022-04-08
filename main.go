@@ -1,16 +1,16 @@
 package main
 
 import (
-	mhttp "github.com/asim/go-micro/plugins/server/http/v4"
 	"github.com/gin-gonic/gin"
-	"github.com/xpunch/go-micro-dashboard/config"
-	"github.com/xpunch/go-micro-dashboard/handler"
+	"github.com/go-micro/dashboard/config"
+	"github.com/go-micro/dashboard/handler"
+	"github.com/go-micro/plugins/server/http"
 	"go-micro.dev/v4"
 	"go-micro.dev/v4/logger"
 )
 
 // @title Go Micro Dashboard
-// @version 1.3.0
+// @version 1.4.0
 // @description go micro dashboard restful-api
 // @termsOfService http://swagger.io/terms/
 // @BasePath /
@@ -22,7 +22,7 @@ func main() {
 	if err := config.Load(); err != nil {
 		logger.Fatal(err)
 	}
-	srv := micro.NewService(micro.Server(mhttp.NewServer()))
+	srv := micro.NewService(micro.Server(http.NewServer()))
 	opts := []micro.Option{
 		micro.Name(config.Name),
 		micro.Address(config.GetServerConfig().Address),

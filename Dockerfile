@@ -1,6 +1,6 @@
 FROM golang:1.17 as builder
 
-RUN git clone https://github.com/xpunch/go-micro-dashboard.git /usr/local/micro \
+RUN git clone https://github.com/go-micro/dashboard.git /usr/local/micro \
     && cd /usr/local/micro \
     && go install github.com/swaggo/swag/cmd/swag@latest \
     && swag init \

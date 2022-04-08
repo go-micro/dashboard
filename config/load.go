@@ -5,10 +5,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/asim/go-micro/plugins/config/encoder/toml/v4"
-	"github.com/asim/go-micro/plugins/config/encoder/yaml/v4"
+	"github.com/go-micro/dashboard/util"
+	"github.com/go-micro/plugins/config/encoder/toml"
+	"github.com/go-micro/plugins/config/encoder/yaml"
 	"github.com/pkg/errors"
-	"github.com/xpunch/go-micro-dashboard/util"
 	"go-micro.dev/v4/config"
 	"go-micro.dev/v4/config/reader"
 	"go-micro.dev/v4/config/reader/json"
@@ -24,7 +24,7 @@ var _cfg *Config = &Config{
 		Address: ":8082",
 		Auth: AuthConfig{
 			Username:        "admin",
-			Password:        "123456",
+			Password:        "micro",
 			TokenSecret:     "modifyme",
 			TokenExpiration: 24 * time.Hour,
 		},

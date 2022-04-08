@@ -6,7 +6,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/xpunch/go-micro-dashboard/config"
+	"github.com/go-micro/dashboard/config"
 )
 
 func AuthRequired() gin.HandlerFunc {

@@ -1,3 +1,6 @@
+### 1.4.0 （2022/04/08)
+> 1. Migrate to github.com/go-micro/dashboard.
+
 ### 1.3.0 （2021/12/16)
 > 1. Support service nodes health check, but http server type is unsupported currently.
 

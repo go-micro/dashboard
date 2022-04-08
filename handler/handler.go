@@ -2,16 +2,16 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/go-micro/dashboard/config"
+	"github.com/go-micro/dashboard/docs"
+	"github.com/go-micro/dashboard/handler/account"
+	handlerclient "github.com/go-micro/dashboard/handler/client"
+	"github.com/go-micro/dashboard/handler/registry"
+	"github.com/go-micro/dashboard/handler/route"
+	"github.com/go-micro/dashboard/handler/statistics"
+	"github.com/go-micro/dashboard/web"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
-	"github.com/xpunch/go-micro-dashboard/config"
-	"github.com/xpunch/go-micro-dashboard/docs"
-	"github.com/xpunch/go-micro-dashboard/handler/account"
-	handlerclient "github.com/xpunch/go-micro-dashboard/handler/client"
-	"github.com/xpunch/go-micro-dashboard/handler/registry"
-	"github.com/xpunch/go-micro-dashboard/handler/route"
-	"github.com/xpunch/go-micro-dashboard/handler/statistics"
-	"github.com/xpunch/go-micro-dashboard/web"
 	"go-micro.dev/v4/client"
 )
 

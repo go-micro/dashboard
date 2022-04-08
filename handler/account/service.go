@@ -6,8 +6,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
-	"github.com/xpunch/go-micro-dashboard/config"
-	"github.com/xpunch/go-micro-dashboard/handler/route"
+	"github.com/go-micro/dashboard/config"
+	"github.com/go-micro/dashboard/handler/route"
 )
 
 type service struct{}
