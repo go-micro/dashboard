@@ -5,7 +5,7 @@
         "title": "Go Micro Dashboard",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {},
-        "version": "1.3.0"
+        "version": "1.4.0"
     },
     "basePath": "/",
     "paths": {

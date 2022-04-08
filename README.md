@@ -21,7 +21,7 @@ Go micro dashboard is designed to make it as easy as possible for users to work 
 ## Installation
 
 ```
-go install github.com/xpunch/go-micro-dashboard@latest
+go install github.com/go-micro/dashboard@latest
 ```
 
 ## Development
@@ -39,12 +39,12 @@ swag init
 
 ```
 default username: admin
-default password: 123456
+default password: micro
 ```
 
 ### Web UI
 
-[Document](https://github.com/xpunch/go-micro-dashboard/tree/main/frontend)
+[Document](https://github.com/go-micro/dashboard/tree/main/frontend)
 
 #### Generate Web Files
 
@@ -70,10 +70,6 @@ docker-compose -f docker-compose.yml up -d
 ```
 kubectl apply -f deployment.yaml
 ```
-
-### Community
-
-QQ Group: 953973712
 
 ## License
 

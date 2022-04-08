@@ -8,7 +8,7 @@ import { environment } from '@env/environment';
   template: `
     <layout-default [options]="options" [content]="contentTpl">
       <layout-default-header-item direction="left">
-        <a layout-default-header-item-trigger href="//github.com/xpunch/go-micro-dashboard" target="_blank">
+        <a layout-default-header-item-trigger href="//github.com/go-micro/dashboard" target="_blank">
           <i nz-icon nzType="github"></i>
         </a>
       </layout-default-header-item>
