@@ -71,6 +71,11 @@ docker-compose -f docker-compose.yml up -d
 kubectl apply -f deployment.yaml
 ```
 
+## Community
+
+- [Slack](https://join.slack.com/t/go-micro/shared_invite/zt-175aaev1d-iHExPTlfxvfkOeeKLIYEYw)
+- [QQ Group](https://jq.qq.com/?_wv=1027&k=5Gmrfv9i)
+
 ## License
 
 [Apache License 2.0](./LICENSE)
