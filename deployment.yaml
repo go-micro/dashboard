@@ -56,7 +56,7 @@ spec:
       containers:
         - image: xpunch/go-micro-dashboard:latest
           imagePullPolicy: IfNotPresent
-          name: micro-dashboard
+          name: dashboard
           ports:
             - containerPort: 80
               protocol: TCP
@@ -65,6 +65,9 @@ spec:
               value: "kubernetes"
             - name: MICRO_CLIENT_RETRIES
               value: "0"
+            # default config type env
+            # - SERVER_AUTH_USERNAME=user
+            # - SERVER_AUTH_PASSWORD=pass
           resources:
             limits:
               memory: 512Mi

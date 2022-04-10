@@ -10,7 +10,7 @@ Go micro dashboard is designed to make it as easy as possible for users to work 
   - [ ] Register service
   - [ ] Deregister service
 - [x] Health check
-- [ ] Configure service
+- [ ] Configuration service
 - [x] Synchronous communication
   - [x] RPC
   - [ ] Stream
@@ -40,6 +40,37 @@ swag init
 ```
 default username: admin
 default password: micro
+```
+
+##### ENV
+```
+export SERVER_ADDRESS=:8082
+export SERVER_AUTH_USERNAME=user
+export SERVER_AUTH_PASSWORD=pass
+```
+
+##### YAML
+```
+export CONFIG_TYPE=yaml
+```
+```yaml
+server:
+  env: "dev"
+  address: ":8082"
+  swagger:
+    host: "localhost:8082"
+```
+
+##### TOML
+```
+export CONFIG_TYPE=toml
+```
+```toml
+[server]
+env = "dev"
+address = ":8082"
+[server.swagger]
+host = "localhost:8082"
 ```
 
 ### Web UI
@@ -75,6 +106,14 @@ kubectl apply -f deployment.yaml
 
 - [Slack](https://join.slack.com/t/go-micro/shared_invite/zt-175aaev1d-iHExPTlfxvfkOeeKLIYEYw)
 - [QQ Group](https://jq.qq.com/?_wv=1027&k=5Gmrfv9i)
+
+## Screen Shots
+![Login](docs/screenshots/1.login.png)
+![Dashboard](docs/screenshots/2.dashboard.png)
+![Services](docs/screenshots/3.services.png)
+![Service Detail](docs/screenshots/4.service%20detail.png)
+![Nodes](docs/screenshots/5.nodes.png)
+![Request](docs/screenshots/6.call.png)
 
 ## License
 
