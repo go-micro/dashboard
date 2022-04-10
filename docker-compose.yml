@@ -11,5 +11,8 @@ services:
       - MICRO_REGISTRY_ADDRESS=etcd
       - CONFIG_TYPE=yaml
       - CONFIG_FILE=/etc/micro/dashboard.yaml
+      # default config type env
+      # - SERVER_AUTH_USERNAME=user
+      # - SERVER_AUTH_PASSWORD=pass
     volumes:
       - "./config.yaml:/etc/micro/dashboard.yaml"
