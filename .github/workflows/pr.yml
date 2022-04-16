@@ -19,7 +19,7 @@ jobs:
         with:
           go-version: 1.18
 
-      - name: Go Test
+      - name: Test
         run: |
           go vet ./...
           go test -v ./...
@@ -47,11 +47,11 @@ jobs:
           cache: "npm"
           cache-dependency-path: frontend/package-lock.json
 
-      - name: NG Test
+      - name: Test
         run: |
           cd frontend
           npm install
-          npm run test --if-present
+          npm run lint
 
       - name: Notify of test failure
         if: failure()
