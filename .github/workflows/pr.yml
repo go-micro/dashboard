@@ -20,7 +20,9 @@ jobs:
           go-version: 1.18
 
       - name: Go Test
-        run: go test -v ./...
+        run: |
+          go vet ./...
+          go test -v ./...
 
       - name: Notify of test failure
         if: failure()

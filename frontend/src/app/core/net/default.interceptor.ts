@@ -12,12 +12,11 @@ import { Router } from '@angular/router';
 import { ALAIN_I18N_TOKEN, _HttpClient } from '@delon/theme';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, mergeMap, } from 'rxjs/operators';
+import { catchError, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
-  constructor(private injector: Injector) {
-  }
+  constructor(private injector: Injector) {}
 
   private get notification(): NzNotificationService {
     return this.injector.get(NzNotificationService);
@@ -42,7 +41,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       default:
         console.log(ev);
         if (ev instanceof HttpErrorResponse) {
-          this.blobToText(ev.error).subscribe((resp) => {
+          this.blobToText(ev.error).subscribe(resp => {
             this.notification.error(ev.statusText, `${resp}\n${ev.url}`, { nzDuration: 15000 });
           });
           return throwError(ev);
@@ -82,7 +81,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     return new Observable<string>((observer: any) => {
       if (blob instanceof Blob) {
         let reader = new FileReader();
-        reader.onload = (event) => {
+        reader.onload = event => {
           observer.next((<any>event.target).result);
           observer.complete();
         };

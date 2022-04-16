@@ -22,9 +22,15 @@ import { SettingsService, User } from '@delon/theme';
         </div>
       </div>
     </nz-dropdown-menu>
-    <nz-modal [(nzVisible)]="aboutVisible" nzTitle="About" nzCancelDisabled="true" (nzOnCancel)="aboutVisible=false" (nzOnOk)="aboutVisible=false">
+    <nz-modal
+      [(nzVisible)]="aboutVisible"
+      nzTitle="About"
+      nzCancelDisabled="true"
+      (nzOnCancel)="aboutVisible = false"
+      (nzOnOk)="aboutVisible = false"
+    >
       <ng-container *nzModalContent>
-        <p>Version: {{version}}</p>
+        <p>Version: {{ version }}</p>
       </ng-container>
     </nz-modal>
   `,
@@ -37,7 +43,7 @@ export class HeaderUserComponent {
   aboutVisible = false;
   version: string = '';
 
-  constructor(private settings: SettingsService, private router: Router, @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) { }
+  constructor(private settings: SettingsService, private router: Router, @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {}
 
   about(): void {
     this.aboutVisible = true;

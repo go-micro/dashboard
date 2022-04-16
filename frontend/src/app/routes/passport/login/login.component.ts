@@ -25,7 +25,7 @@ export class UserLoginComponent {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private startupSrv: StartupService,
     private cdr: ChangeDetectorRef,
-    private accountService: AccountServiceProxy,
+    private accountService: AccountServiceProxy
   ) {
     this.form = fb.group({
       username: [null, [Validators.required]],
@@ -73,14 +73,17 @@ export class UserLoginComponent {
 
     this.loading = true;
     this.cdr.detectChanges();
-    this.accountService.login(new LoginRequest({ username: this.username.value, password: this.password.value }))
-      .pipe(finalize(() => {
-        this.loading = false;
-        this.cdr.detectChanges();
-      }))
+    this.accountService
+      .login(new LoginRequest({ username: this.username.value, password: this.password.value }))
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+          this.cdr.detectChanges();
+        })
+      )
       .subscribe(resp => {
         if (!resp.token) {
-          this.error = "login failed";
+          this.error = 'login failed';
           this.cdr.detectChanges();
           return;
         }

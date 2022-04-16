@@ -1,54 +1,75 @@
 <page-header [breadcrumb]="breadcrumb" [action]="action">
-    <ng-template #breadcrumb>
-        <nz-breadcrumb>
-            <nz-breadcrumb-item>
-                <a href="#/dashboard">Dashboard</a>
-            </nz-breadcrumb-item>
-            <nz-breadcrumb-item>
-                <a href="#/services">Services</a>
-            </nz-breadcrumb-item>
-            <nz-breadcrumb-item>Nodes</nz-breadcrumb-item>
-        </nz-breadcrumb>
-    </ng-template>
-    <ng-template #action>
-        <button nz-button nzType="primary" style="float:right;" (click)="load()" [nzLoading]="loading">Refresh</button>
-    </ng-template>
+  <ng-template #breadcrumb>
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a href="#/dashboard">Dashboard</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <a href="#/services">Services</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>Nodes</nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </ng-template>
+  <ng-template #action>
+    <button nz-button nzType="primary" style="float: right" (click)="load()" [nzLoading]="loading">Refresh</button>
+  </ng-template>
 </page-header>
 
 <nz-collapse nzGhost>
-    <nz-collapse-panel *ngFor="let service of services" [nzHeader]="service.name" nzActive="true">
-        <nz-table #nodeTable *ngIf="service.nodes" nzExpandedIcon="double-right" [nzData]="service.nodes"
-            [nzFrontPagination]="false" [nzBordered]="true">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Version</th>
-                    <th>Address</th>
-                    <th>Metadata</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let data of nodeTable.data">
-                    <td nz-tooltip [nzTooltipTitle]="data.tip">
-                        <i *ngIf="data.valid!==undefined&&!data.valid" nz-icon [nzType]="'close-circle'"
-                            [nzTheme]="'twotone'" [nzTwotoneColor]="'#eb2f96'"></i>
-                        <i *ngIf="data.valid!==undefined&&data.valid" nz-icon [nzType]="'check-circle'"
-                            [nzTheme]="'twotone'" [nzTwotoneColor]="'#52c41a'"></i>
-                        {{data.id}}
-                    </td>
-                    <td>{{data.version}}</td>
-                    <td>{{data.address}} </td>
-                    <td>{{data.metadata|json}}</td>
-                    <td>
-                        <button nz-button nzType="primary" [nzLoading]="data.loading"
-                            [disabled]="!data.metadata['server']||data.metadata['server']=='http'"
-                            (click)="healthCheck(service.name, data)">Health</button>
-                    </td>
-                </tr>
-            </tbody>
-        </nz-table>
-    </nz-collapse-panel>
+  <nz-collapse-panel *ngFor="let service of services" [nzHeader]="service.name" nzActive="true">
+    <nz-table
+      #nodeTable
+      *ngIf="service.nodes"
+      nzExpandedIcon="double-right"
+      [nzData]="service.nodes"
+      [nzFrontPagination]="false"
+      [nzBordered]="true"
+    >
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Version</th>
+          <th>Address</th>
+          <th>Metadata</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of nodeTable.data">
+          <td nz-tooltip [nzTooltipTitle]="data.tip">
+            <i
+              *ngIf="data.valid !== undefined && !data.valid"
+              nz-icon
+              [nzType]="'close-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#eb2f96'"
+            ></i>
+            <i
+              *ngIf="data.valid !== undefined && data.valid"
+              nz-icon
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+            {{ data.id }}
+          </td>
+          <td>{{ data.version }}</td>
+          <td>{{ data.address }} </td>
+          <td>{{ data.metadata | json }}</td>
+          <td>
+            <button
+              nz-button
+              nzType="primary"
+              [nzLoading]="data.loading"
+              [disabled]="!data.metadata['server'] || data.metadata['server'] == 'http'"
+              (click)="healthCheck(service.name, data)"
+              >Health</button
+            >
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-collapse-panel>
 </nz-collapse>
 
 <nz-back-top></nz-back-top>

@@ -1,83 +1,105 @@
 <page-header [title]="'Call'" [breadcrumb]="breadcrumb" [action]="action">
-    <ng-template #breadcrumb>
-        <nz-breadcrumb>
-            <nz-breadcrumb-item>
-                <a href="#/dashboard">Dashboard</a>
-            </nz-breadcrumb-item>
-            <nz-breadcrumb-item>
-                <a href="#/services">Services</a>
-            </nz-breadcrumb-item>
-            <nz-breadcrumb-item>Call</nz-breadcrumb-item>
-        </nz-breadcrumb>
-    </ng-template>
-    <ng-template #action>
-        <button nz-button nzType="primary" style="float:right;" (click)="load()" [nzLoading]="loading">Refresh</button>
-    </ng-template>
+  <ng-template #breadcrumb>
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a href="#/dashboard">Dashboard</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <a href="#/services">Services</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>Call</nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </ng-template>
+  <ng-template #action>
+    <button nz-button nzType="primary" style="float: right" (click)="load()" [nzLoading]="loading">Refresh</button>
+  </ng-template>
 </page-header>
 
 <div nz-row>
-    <div nz-col nzSpan="12" class="p-sm">
-        <form nz-form (ngSubmit)="call()" role="form">
-            <nz-form-item>
-                <nz-form-control nzErrorTip="Select service">
-                    <nz-select nzShowSearch name="service" nzPlaceHolder="Select service" [(ngModel)]="selectedService"
-                        (ngModelChange)="serviceChanged($event)">
-                        <nz-option *ngFor="let s of services" [nzValue]="s" [nzLabel]="s.name">
-                        </nz-option>
-                    </nz-select>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item *ngIf="selectedService">
-                <nz-form-control>
-                    <nz-select nzShowSearch name="version" nzPlaceHolder="Select version" [(ngModel)]="version"
-                        (ngModelChange)="versionChanged($event)">
-                        <nz-option *ngFor="let v of selectedService.versions" [nzValue]="v" [nzLabel]="v">
-                        </nz-option>
-                    </nz-select>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item *ngIf="endpoints">
-                <nz-form-control>
-                    <nz-select nzShowSearch name="endpoint" nzPlaceHolder="Select endpoint"
-                        [(ngModel)]="selectedEndpoint" (ngModelChange)="endpointChanged($event)">
-                        <nz-option *ngFor="let e of endpoints" [nzValue]="e" [nzLabel]="e.name">
-                        </nz-option>
-                    </nz-select>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-control>
-                    <textarea nz-input name="request" placeholder="Request payload" [ngModel]="request|json"
-                        [nzAutosize]="{ minRows: 5, maxRows: 20 }" (ngModelChange)="requestChanged($event)"></textarea>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-control>
-                    Timeout(Seconds)
-                    <nz-input-number name="timeout" nzPlaceHolder="timeout" [(ngModel)]="timeout" [nzMin]="1"
-                        [nzMax]="60" [nzStep]="1"></nz-input-number>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="loading" nzBlock>
-                    Call
-                </button>
-            </nz-form-item>
-        </form>
-    </div>
-    <div nz-col nzSpan="12" class="p-sm">
-        <nz-card nzTitle="Response" [nzExtra]="actions">
-            <p style="overflow-wrap: break-word;white-space: break-spaces;">{{response|json}}</p>
-        </nz-card>
-        <ng-template #actions>
-            <nz-space nzSize="middle">
-                <a *nzSpaceItem (click)="copyToClipboard(response)">
-                    <i nz-icon nzType="copy" nzTheme="outline"></i>
-                </a>
-                <a *nzSpaceItem (click)="response={}">
-                    <i nz-icon nzType="clear" nzTheme="outline"></i>
-                </a>
-            </nz-space>
-        </ng-template>
-    </div>
+  <div nz-col nzSpan="12" class="p-sm">
+    <form nz-form (ngSubmit)="call()" role="form">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Select service">
+          <nz-select
+            nzShowSearch
+            name="service"
+            nzPlaceHolder="Select service"
+            [(ngModel)]="selectedService"
+            (ngModelChange)="serviceChanged($event)"
+          >
+            <nz-option *ngFor="let s of services" [nzValue]="s" [nzLabel]="s.name"> </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="selectedService">
+        <nz-form-control>
+          <nz-select
+            nzShowSearch
+            name="version"
+            nzPlaceHolder="Select version"
+            [(ngModel)]="version"
+            (ngModelChange)="versionChanged($event)"
+          >
+            <nz-option *ngFor="let v of selectedService.versions" [nzValue]="v" [nzLabel]="v"> </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="endpoints">
+        <nz-form-control>
+          <nz-select
+            nzShowSearch
+            name="endpoint"
+            nzPlaceHolder="Select endpoint"
+            [(ngModel)]="selectedEndpoint"
+            (ngModelChange)="endpointChanged($event)"
+          >
+            <nz-option *ngFor="let e of endpoints" [nzValue]="e" [nzLabel]="e.name"> </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <textarea
+            nz-input
+            name="request"
+            placeholder="Request payload"
+            [ngModel]="request | json"
+            [nzAutosize]="{ minRows: 5, maxRows: 20 }"
+            (ngModelChange)="requestChanged($event)"
+          ></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          Timeout(Seconds)
+          <nz-input-number
+            name="timeout"
+            nzPlaceHolder="timeout"
+            [(ngModel)]="timeout"
+            [nzMin]="1"
+            [nzMax]="60"
+            [nzStep]="1"
+          ></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="loading" nzBlock> Call </button>
+      </nz-form-item>
+    </form>
+  </div>
+  <div nz-col nzSpan="12" class="p-sm">
+    <nz-card nzTitle="Response" [nzExtra]="actions">
+      <p style="overflow-wrap: break-word; white-space: break-spaces">{{ response | json }}</p>
+    </nz-card>
+    <ng-template #actions>
+      <nz-space nzSize="middle">
+        <a *nzSpaceItem (click)="copyToClipboard(response)">
+          <i nz-icon nzType="copy" nzTheme="outline"></i>
+        </a>
+        <a *nzSpaceItem (click)="response = {}">
+          <i nz-icon nzType="clear" nzTheme="outline"></i>
+        </a>
+      </nz-space>
+    </ng-template>
+  </div>
 </div>

@@ -8,7 +8,7 @@ import { ServiceProxy } from 'src/app/shared/service-proxies/service-proxies';
   styleUrls: ['./passport.component.less']
 })
 export class LayoutPassportComponent implements OnInit {
-  constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService, private readonly service: ServiceProxy) { }
+  constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService, private readonly service: ServiceProxy) {}
 
   version: string = '';
 

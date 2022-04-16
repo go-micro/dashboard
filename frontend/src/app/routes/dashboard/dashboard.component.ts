@@ -15,9 +15,7 @@ export class DashboardComponent implements OnInit {
   servicesCount: number;
   nodesCount: number;
 
-  constructor(private readonly router: Router,
-    private statisticsService: StatisticsServiceProxy,
-  ) {
+  constructor(private readonly router: Router, private statisticsService: StatisticsServiceProxy) {
     this.loading = false;
     this.registryType = '';
     this.registryAddrs = [];
@@ -31,28 +29,31 @@ export class DashboardComponent implements OnInit {
 
   load() {
     this.loading = true;
-    this.statisticsService.getSummary().pipe(
-      finalize(() => {
-        this.loading = false;
-      })
-    ).subscribe(resp => {
-      if (resp.registry) {
-        if (resp.registry.type) {
-          this.registryType = resp.registry.type;
+    this.statisticsService
+      .getSummary()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(resp => {
+        if (resp.registry) {
+          if (resp.registry.type) {
+            this.registryType = resp.registry.type;
+          }
+          if (resp.registry.addrs) {
+            this.registryAddrs = resp.registry.addrs;
+          }
         }
-        if (resp.registry.addrs) {
-          this.registryAddrs = resp.registry.addrs;
+        if (resp.services) {
+          if (resp.services.count) {
+            this.servicesCount = resp.services.count;
+          }
+          if (resp.services.nodes_count) {
+            this.nodesCount = resp.services.nodes_count;
+          }
         }
-      }
-      if (resp.services) {
-        if (resp.services.count) {
-          this.servicesCount = resp.services.count;
-        }
-        if (resp.services.nodes_count) {
-          this.nodesCount = resp.services.nodes_count;
-        }
-      }
-    });
+      });
   }
 
   goto(url: string) {

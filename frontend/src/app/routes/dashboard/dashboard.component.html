@@ -1,26 +1,30 @@
 <page-header [breadcrumb]="breadcrumb" [action]="action">
-    <ng-template #breadcrumb>
-        <nz-breadcrumb>
-            <nz-breadcrumb-item>Dashboard</nz-breadcrumb-item>
-            <nz-breadcrumb-item>
-                <a href="#/services">Services</a>
-            </nz-breadcrumb-item>
-        </nz-breadcrumb>
-    </ng-template>
-    <ng-template #action>
-        <button nz-button nzType="primary" style="float:right;" (click)="load()" [nzLoading]="loading">Refresh</button>
-    </ng-template>
+  <ng-template #breadcrumb>
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>Dashboard</nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <a href="#/services">Services</a>
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </ng-template>
+  <ng-template #action>
+    <button nz-button nzType="primary" style="float: right" (click)="load()" [nzLoading]="loading">Refresh</button>
+  </ng-template>
 </page-header>
 
 <nz-card [nzHoverable]="true" [nzBordered]="false">
-    <sv-container size="large" title="Registry">
-        <sv label="Type">{{ registryType }}</sv>
-        <sv label="Addrs">{{ registryAddrs }}</sv>
-    </sv-container>
+  <sv-container size="large" title="Registry">
+    <sv label="Type">{{ registryType }}</sv>
+    <sv label="Addrs">{{ registryAddrs }}</sv>
+  </sv-container>
 </nz-card>
 <nz-card [nzHoverable]="true" [nzBordered]="false" (click)="goto('/services')">
-    <sv-container size="large" title="Services">
-        <sv label="Services"><a (click)="goto('/services')">{{ servicesCount }}</a></sv>
-        <sv label="Nodes"><a (click)="goto('/services')">{{ nodesCount }}</a></sv>
-    </sv-container>
+  <sv-container size="large" title="Services">
+    <sv label="Services"
+      ><a (click)="goto('/services')">{{ servicesCount }}</a></sv
+    >
+    <sv label="Nodes"
+      ><a (click)="goto('/services')">{{ nodesCount }}</a></sv
+    >
+  </sv-container>
 </nz-card>

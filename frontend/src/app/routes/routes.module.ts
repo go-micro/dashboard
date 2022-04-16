@@ -1,14 +1,14 @@
 import { NgModule, Type } from '@angular/core';
 import { SharedModule } from '@shared';
 
+import { ClientCallComponent } from './client/call.component';
+import { ClientPublishComponent } from './client/publish.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserLoginComponent } from './passport/login/login.component';
 import { RouteRoutingModule } from './routes-routing.module';
-import { ServicesListComponent } from './services/list.component';
 import { ServiceDetailComponent } from './services/detail.component';
+import { ServicesListComponent } from './services/list.component';
 import { ServiceNodesComponent } from './services/nodes.component';
-import { ClientCallComponent } from './client/call.component';
-import { ClientPublishComponent } from './client/publish.component';
 
 const COMPONENTS: Array<Type<void>> = [
   DashboardComponent,
@@ -17,11 +17,11 @@ const COMPONENTS: Array<Type<void>> = [
   ServiceDetailComponent,
   ServiceNodesComponent,
   ClientCallComponent,
-  ClientPublishComponent,
+  ClientPublishComponent
 ];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
-  declarations: COMPONENTS,
+  declarations: COMPONENTS
 })
-export class RoutesModule { }
+export class RoutesModule {}

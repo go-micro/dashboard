@@ -22,12 +22,12 @@ import { environment } from '@env/environment';
 
     <setting-drawer *ngIf="showSettingDrawer"></setting-drawer>
     <theme-btn></theme-btn>
-  `,
+  `
 })
 export class LayoutBasicComponent {
   options: LayoutDefaultOptions = {
     logoExpanded: `./assets/logo-full.png`,
-    logoCollapsed: `./assets/logo.png`,
+    logoCollapsed: `./assets/logo.png`
   };
   searchToggleStatus = false;
   showSettingDrawer = !environment.production;
@@ -35,5 +35,5 @@ export class LayoutBasicComponent {
     return this.settings.user;
   }
 
-  constructor(private settings: SettingsService) { }
+  constructor(private settings: SettingsService) {}
 }
