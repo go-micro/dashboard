@@ -1,16 +1,31 @@
-FROM golang:1.17 as builder
+FROM node:16 as frontend-builder
 
-RUN git clone https://github.com/go-micro/dashboard.git /usr/local/micro \
-    && cd /usr/local/micro \
-    && go install github.com/swaggo/swag/cmd/swag@latest \
-    && swag init \
-    && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o dashboard .
+WORKDIR /micro
+
+COPY frontend .
+
+RUN npm install -g @angular/cli && \
+    npm install && \
+    npm run build
+
+FROM golang:1.18 as backend-builder
+
+WORKDIR /micro
+
+COPY . .
+COPY --from=frontend-builder /micro/dist frontend/dist
+
+RUN go install github.com/swaggo/swag/cmd/swag@latest && \
+    swag init && \
+    go install github.com/UnnoTed/fileb0x@latest && \
+    fileb0x b0x.yaml && \
+    CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o dashboard .
 
 FROM alpine:latest
 
 WORKDIR /usr/local/bin
 
-COPY --from=builder /usr/local/micro/dashboard .
+COPY --from=backend-builder /micro/dashboard .
 
 EXPOSE 80
 
