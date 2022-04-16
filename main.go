@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-micro/dashboard/config"
 	"github.com/go-micro/dashboard/handler"
-	"github.com/go-micro/plugins/server/http"
+	"github.com/go-micro/plugins/v4/server/http"
 	"go-micro.dev/v4"
 	"go-micro.dev/v4/logger"
 )

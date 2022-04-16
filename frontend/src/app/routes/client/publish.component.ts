@@ -1,12 +1,19 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs/operators';
-import { ClipboardService } from 'ngx-clipboard';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ClientServiceProxy, PublishRequest, RegistryEndpoint, RegistryServiceProxy, RegistryServiceSummary, RegistryValue } from 'src/app/shared/service-proxies/service-proxies';
+import { ClipboardService } from 'ngx-clipboard';
+import { finalize } from 'rxjs/operators';
+import {
+  ClientServiceProxy,
+  PublishRequest,
+  RegistryEndpoint,
+  RegistryServiceProxy,
+  RegistryServiceSummary,
+  RegistryValue
+} from 'src/app/shared/service-proxies/service-proxies';
 
 interface RequestPayload {
-  [key: string]: any
+  [key: string]: any;
 }
 @Component({
   selector: 'micro-client-publish',
@@ -27,13 +34,13 @@ export class ClientPublishComponent implements OnInit {
   endpoints: RegistryEndpoint[] = [];
   selectedEndpoint: RegistryEndpoint | undefined = undefined;
 
-  constructor(private readonly route: ActivatedRoute,
+  constructor(
+    private readonly route: ActivatedRoute,
     private readonly clientService: ClientServiceProxy,
     private readonly clipboardService: ClipboardService,
     private readonly messageService: NzMessageService,
-    private readonly registryService: RegistryServiceProxy,
-  ) {
-  }
+    private readonly registryService: RegistryServiceProxy
+  ) {}
 
   ngOnInit(): void {
     var service = this.route.snapshot.queryParams['service'];
@@ -56,25 +63,28 @@ export class ClientPublishComponent implements OnInit {
     this.selectedEndpoint = undefined;
     this.services = [];
     this.response = undefined;
-    this.registryService.getServices().pipe(
-      finalize(() => {
-        this.loading = false;
-      })
-    ).subscribe(resp => {
-      this.services = resp.services;
-      if (!this.service || !resp.services.length) {
-        return
-      }
-      resp.services.forEach(s => {
-        if (s.name == this.service) {
-          this.selectedService = s;
-          if (!this.version) {
-            this.version = s.versions ? s.versions[0] : '';
-          }
+    this.registryService
+      .getServices()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(resp => {
+        this.services = resp.services;
+        if (!this.service || !resp.services.length) {
+          return;
         }
+        resp.services.forEach(s => {
+          if (s.name == this.service) {
+            this.selectedService = s;
+            if (!this.version) {
+              this.version = s.versions ? s.versions[0] : '';
+            }
+          }
+        });
+        this.loadEndpoints();
       });
-      this.loadEndpoints();
-    });
   }
 
   publish() {
@@ -82,15 +92,18 @@ export class ClientPublishComponent implements OnInit {
     this.response = undefined;
     var input = new PublishRequest({
       topic: this.topic,
-      message: JSON.stringify(this.request),
+      message: JSON.stringify(this.request)
     });
-    this.clientService.publish(input).pipe(
-      finalize(() => {
-        this.loading = false;
-      })
-    ).subscribe(resp => {
-      this.response = resp;
-    });
+    this.clientService
+      .publish(input)
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(resp => {
+        this.response = resp;
+      });
   }
 
   serviceChanged(service: RegistryServiceSummary) {
@@ -114,10 +127,10 @@ export class ClientPublishComponent implements OnInit {
   }
 
   loadEndpointReuqest(endpoint: RegistryEndpoint) {
-    var previousRequest = localStorage.getItem(endpoint.name + '.publish');
+    var previousRequest = localStorage.getItem(`${endpoint.name}.publish`);
     if (previousRequest) {
       try {
-        this.request = eval('(' + previousRequest + ')');
+        this.request = eval(`(${previousRequest})`);
       } catch (e) {
         // SyntaxError
       }
@@ -128,8 +141,8 @@ export class ClientPublishComponent implements OnInit {
 
   requestChanged(request: string) {
     try {
-      this.request = eval('(' + request + ')');
-      localStorage.setItem(this.topic + '.publish', JSON.stringify(this.request));
+      this.request = eval(`(${request})`);
+      localStorage.setItem(`${this.topic}.publish`, JSON.stringify(this.request));
     } catch (e) {
       // SyntaxError
     }
@@ -142,7 +155,7 @@ export class ClientPublishComponent implements OnInit {
 
   private loadEndpoints() {
     if (!this.service) {
-      return
+      return;
     }
     this.endpoints = [];
     this.request = undefined;
@@ -170,7 +183,7 @@ export class ClientPublishComponent implements OnInit {
     if (request && request.values) {
       request.values.forEach(v => {
         if (!v.name || v.name === 'MessageState' || v.name === 'int32' || v.name === 'unknownFields') {
-          return
+          return;
         }
         let value: any;
         switch (v.type) {
@@ -187,8 +200,8 @@ export class ClientPublishComponent implements OnInit {
             break;
           case 'float64':
           case 'float32':
-            value = 0.00;
-            break
+            value = 0.0;
+            break;
           case 'bool':
             value = false;
             break;
@@ -201,7 +214,7 @@ export class ClientPublishComponent implements OnInit {
             }
         }
         payload[v.name] = value;
-      })
+      });
     }
     this.request = payload;
   }

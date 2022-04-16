@@ -14,11 +14,11 @@ export class ServiceDetailComponent implements OnInit {
   version: string | null = null;
   services: RegistryService[] = [];
 
-  constructor(private readonly route: ActivatedRoute,
+  constructor(
+    private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly registryService: RegistryServiceProxy,
-  ) {
-  }
+    private readonly registryService: RegistryServiceProxy
+  ) {}
 
   ngOnInit(): void {
     var name = this.route.snapshot.queryParams['name'];
@@ -34,27 +34,30 @@ export class ServiceDetailComponent implements OnInit {
 
   load() {
     this.loading = true;
-    this.registryService.getServiceDetail(this.name, this.version).pipe(
-      finalize(() => {
-        this.loading = false;
-      })
-    ).subscribe(resp => {
-      if (resp.services) {
-        this.services = resp.services;
-      }
-    });
+    this.registryService
+      .getServiceDetail(this.name, this.version)
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(resp => {
+        if (resp.services) {
+          this.services = resp.services;
+        }
+      });
   }
 
   gotoCall(service: string, version: string, endpoint: string) {
     let navigationExtras: NavigationExtras = {
-      queryParams: { 'service': service, 'version': version, 'endpoint': endpoint }
+      queryParams: { service: service, version: version, endpoint: endpoint }
     };
     this.router.navigate(['/client/call'], navigationExtras);
   }
 
   gotoPublish(service: string, version: string, topic: string) {
     let navigationExtras: NavigationExtras = {
-      queryParams: { 'service': service, 'version': version, 'topic': topic }
+      queryParams: { service: service, version: version, topic: topic }
     };
     this.router.navigate(['/client/publish'], navigationExtras);
   }

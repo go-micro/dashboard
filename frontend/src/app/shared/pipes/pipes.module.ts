@@ -4,12 +4,8 @@ import { NgModule } from '@angular/core';
 import { EndpointPipe } from './endpoint.pipe';
 
 @NgModule({
-  declarations: [
-    EndpointPipe,
-  ],
+  declarations: [EndpointPipe],
   imports: [CommonModule],
-  exports: [
-    EndpointPipe,
-  ],
+  exports: [EndpointPipe]
 })
-export class PipesModule { }
+export class PipesModule {}

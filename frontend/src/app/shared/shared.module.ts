@@ -1,20 +1,19 @@
-import { NgModule, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule, Type } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AlainThemeModule } from '@delon/theme';
 import { DelonACLModule } from '@delon/acl';
 import { DelonFormModule } from '@delon/form';
+import { AlainThemeModule } from '@delon/theme';
+import { ClipboardModule } from 'ngx-clipboard';
 
+import { EndpointPipe } from './pipes/endpoint.pipe';
+import { ServiceProxyModule } from './service-proxies/service-proxy.module';
 import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
 
-import { ServiceProxyModule } from './service-proxies/service-proxy.module';
-import { EndpointPipe } from './pipes/endpoint.pipe';
-
 // #region third libs
 
-import { ClipboardModule } from 'ngx-clipboard';
 const THIRDMODULES: Array<Type<void>> = [ClipboardModule];
 
 // #endregion
@@ -61,7 +60,7 @@ const DIRECTIVES: Array<Type<void>> = [];
     ...THIRDMODULES,
     // your components
     ...COMPONENTS,
-    ...DIRECTIVES,
+    ...DIRECTIVES
   ]
 })
-export class SharedModule { }
+export class SharedModule {}

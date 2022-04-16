@@ -1,12 +1,19 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs/operators';
-import { ClipboardService } from 'ngx-clipboard';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { CallRequest, ClientServiceProxy, RegistryEndpoint, RegistryServiceProxy, RegistryServiceSummary, RegistryValue } from 'src/app/shared/service-proxies/service-proxies';
+import { ClipboardService } from 'ngx-clipboard';
+import { finalize } from 'rxjs/operators';
+import {
+  CallRequest,
+  ClientServiceProxy,
+  RegistryEndpoint,
+  RegistryServiceProxy,
+  RegistryServiceSummary,
+  RegistryValue
+} from 'src/app/shared/service-proxies/service-proxies';
 
 interface RequestPayload {
-  [key: string]: any
+  [key: string]: any;
 }
 @Component({
   selector: 'micro-client-call',
@@ -27,13 +34,13 @@ export class ClientCallComponent implements OnInit {
   endpoints: RegistryEndpoint[] = [];
   selectedEndpoint: RegistryEndpoint | undefined = undefined;
 
-  constructor(private readonly route: ActivatedRoute,
+  constructor(
+    private readonly route: ActivatedRoute,
     private readonly clientService: ClientServiceProxy,
     private readonly clipboardService: ClipboardService,
     private readonly messageService: NzMessageService,
-    private readonly registryService: RegistryServiceProxy,
-  ) {
-  }
+    private readonly registryService: RegistryServiceProxy
+  ) {}
 
   ngOnInit(): void {
     var service = this.route.snapshot.queryParams['service'];
@@ -56,25 +63,28 @@ export class ClientCallComponent implements OnInit {
     this.selectedEndpoint = undefined;
     this.services = [];
     this.response = undefined;
-    this.registryService.getServices().pipe(
-      finalize(() => {
-        this.loading = false;
-      })
-    ).subscribe(resp => {
-      this.services = resp.services;
-      if (!this.service || !resp.services.length) {
-        return
-      }
-      resp.services.forEach(s => {
-        if (s.name == this.service) {
-          this.selectedService = s;
-          if (!this.version) {
-            this.version = s.versions ? s.versions[0] : '';
-          }
+    this.registryService
+      .getServices()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(resp => {
+        this.services = resp.services;
+        if (!this.service || !resp.services.length) {
+          return;
         }
+        resp.services.forEach(s => {
+          if (s.name == this.service) {
+            this.selectedService = s;
+            if (!this.version) {
+              this.version = s.versions ? s.versions[0] : '';
+            }
+          }
+        });
+        this.loadEndpoints();
       });
-      this.loadEndpoints();
-    });
   }
 
   call() {
@@ -85,15 +95,18 @@ export class ClientCallComponent implements OnInit {
       version: this.version,
       endpoint: this.endpoint,
       request: JSON.stringify(this.request),
-      timeout: this.timeout,
+      timeout: this.timeout
     });
-    this.clientService.call(input).pipe(
-      finalize(() => {
-        this.loading = false;
-      })
-    ).subscribe(resp => {
-      this.response = resp;
-    });
+    this.clientService
+      .call(input)
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(resp => {
+        this.response = resp;
+      });
   }
 
   serviceChanged(service: RegistryServiceSummary) {
@@ -117,10 +130,10 @@ export class ClientCallComponent implements OnInit {
   }
 
   loadEndpointReuqest(endpoint: RegistryEndpoint) {
-    var previousRequest = localStorage.getItem(endpoint.name + '.call');
+    var previousRequest = localStorage.getItem(`${endpoint.name}.call`);
     if (previousRequest) {
       try {
-        this.request = eval('(' + previousRequest + ')');
+        this.request = eval(`(${previousRequest})`);
       } catch (e) {
         // SyntaxError
       }
@@ -131,8 +144,8 @@ export class ClientCallComponent implements OnInit {
 
   requestChanged(request: string) {
     try {
-      this.request = eval('(' + request + ')');
-      localStorage.setItem(this.endpoint + '.call', JSON.stringify(this.request));
+      this.request = eval(`(${request})`);
+      localStorage.setItem(`${this.endpoint}.call`, JSON.stringify(this.request));
     } catch (e) {
       // SyntaxError
     }
@@ -145,7 +158,7 @@ export class ClientCallComponent implements OnInit {
 
   private loadEndpoints() {
     if (!this.service) {
-      return
+      return;
     }
     this.endpoints = [];
     this.request = undefined;
@@ -173,7 +186,7 @@ export class ClientCallComponent implements OnInit {
     if (request && request.values) {
       request.values.forEach(v => {
         if (!v.name || v.name === 'MessageState' || v.name === 'int32' || v.name === 'unknownFields') {
-          return
+          return;
         }
         let value: any;
         switch (v.type) {
@@ -190,8 +203,8 @@ export class ClientCallComponent implements OnInit {
             break;
           case 'float64':
           case 'float32':
-            value = 0.00;
-            break
+            value = 0.0;
+            break;
           case 'bool':
             value = false;
             break;
@@ -208,7 +221,7 @@ export class ClientCallComponent implements OnInit {
             }
         }
         payload[v.name] = value;
-      })
+      });
     }
     this.request = payload;
   }

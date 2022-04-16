@@ -53,7 +53,7 @@ module.exports = {
         '@angular-eslint/no-forward-ref': 'off',
         '@angular-eslint/no-host-metadata-property': 'off',
         '@angular-eslint/no-lifecycle-call': 'off',
-        '@angular-eslint/no-pipe-impure': 'error',
+        '@angular-eslint/no-pipe-impure': 'off',
         '@angular-eslint/prefer-output-readonly': 'error',
         '@angular-eslint/use-component-selector': 'off',
         '@angular-eslint/use-component-view-encapsulation': 'off',

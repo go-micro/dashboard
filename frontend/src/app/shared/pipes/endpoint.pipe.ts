@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'endpoint',
-  pure: false,
+  pure: false
 })
 export class EndpointPipe implements PipeTransform {
   transform(d: any, args?: any[]): string {

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { MenuService, SettingsService, TitleService } from '@delon/theme';
 import { ACLService } from '@delon/acl';
-import { Observable, zip, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { MenuService, SettingsService, TitleService } from '@delon/theme';
 import type { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzIconService } from 'ng-zorro-antd/icon';
+import { Observable, zip, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { AccountServiceProxy, ServiceProxy } from 'src/app/shared/service-proxies/service-proxies';
 
 import { ICONS } from '../../../style-icons';
 import { ICONS_AUTO } from '../../../style-icons-auto';
-import { AccountServiceProxy, ServiceProxy } from 'src/app/shared/service-proxies/service-proxies';
 
 /**
  * Used for application startup
@@ -23,7 +23,7 @@ export class StartupService {
     private aclService: ACLService,
     private titleService: TitleService,
     private accountService: AccountServiceProxy,
-    private readonly serviceProxy: ServiceProxy,
+    private readonly serviceProxy: ServiceProxy
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }

@@ -5,27 +5,27 @@ go 1.17
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.7.7
-	github.com/go-micro/plugins/broker/kafka v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/broker/mqtt v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/broker/nats v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/broker/rabbitmq v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/broker/redis v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/client/grpc v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/client/http v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/client/mucp v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/config/encoder/toml v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/config/encoder/yaml v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/registry/consul v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/registry/etcd v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/registry/eureka v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/registry/gossip v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/registry/kubernetes v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/registry/nacos v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/registry/nats v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/registry/zookeeper v0.0.0-20220408041722-48f19627b61b
-	github.com/go-micro/plugins/server/http v0.0.0-20220408041722-48f19627b61b
+	github.com/go-micro/plugins/v4/broker/kafka v1.0.0
+	github.com/go-micro/plugins/v4/broker/mqtt v1.0.0
+	github.com/go-micro/plugins/v4/broker/nats v1.0.0
+	github.com/go-micro/plugins/v4/broker/rabbitmq v1.0.0
+	github.com/go-micro/plugins/v4/broker/redis v1.0.0
+	github.com/go-micro/plugins/v4/client/grpc v1.0.0
+	github.com/go-micro/plugins/v4/client/http v1.0.0
+	github.com/go-micro/plugins/v4/client/mucp v1.0.0
+	github.com/go-micro/plugins/v4/config/encoder/toml v1.0.0
+	github.com/go-micro/plugins/v4/config/encoder/yaml v1.0.0
+	github.com/go-micro/plugins/v4/registry/consul v1.0.0
+	github.com/go-micro/plugins/v4/registry/etcd v1.0.0
+	github.com/go-micro/plugins/v4/registry/eureka v1.0.0
+	github.com/go-micro/plugins/v4/registry/gossip v1.0.0
+	github.com/go-micro/plugins/v4/registry/kubernetes v1.0.0
+	github.com/go-micro/plugins/v4/registry/nacos v1.0.0
+	github.com/go-micro/plugins/v4/registry/nats v1.0.0
+	github.com/go-micro/plugins/v4/registry/zookeeper v1.0.0
+	github.com/go-micro/plugins/v4/server/http v1.0.0
 	github.com/pkg/errors v0.9.1
-	github.com/swaggo/gin-swagger v1.4.1
+	github.com/swaggo/gin-swagger v1.4.2
 	github.com/swaggo/swag v1.8.1
 	go-micro.dev/v4 v4.6.0
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd
