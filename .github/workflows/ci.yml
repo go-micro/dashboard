@@ -51,17 +51,11 @@ jobs:
           npm run lint
 
       - name: Notify of test failure
-        id: slack
-        uses: slackapi/slack-github-action@v1.18.0
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      - name: Notify of test failure
         if: failure()
         id: slack
         uses: slackapi/slack-github-action@v1.18.0
         with:
           channel-id: 'github-actions'
-          slack-message: "Test result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+          slack-message: "Dashboard tests: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
