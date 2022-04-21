@@ -1,0 +1,67 @@
+name: Unit Tests
+
+on:
+  pull_request:
+    branches:
+      - "main"
+  push:
+    branches:
+      - "main"
+
+jobs:
+  backend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            frontend:
+              - 'frontend/**'
+            backend:
+              - '**/*.go'
+
+      - name: Set up Go
+        if: steps.changes.outputs.backend == 'true'
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
+
+      - name: Test Backend
+        if: steps.changes.outputs.backend == 'true'
+        run: |
+          go vet ./...
+          go test -v ./...
+
+      - name: Set up Node.js
+        if: steps.changes.outputs.frontend == 'true'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 17
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Test Frontend
+        if: steps.changes.outputs.frontend == 'true'
+        run: |
+          cd frontend
+          npm install
+          npm run lint
+
+      - name: Notify of test failure
+        id: slack
+        uses: slackapi/slack-github-action@v1.18.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify of test failure
+        if: failure()
+        id: slack
+        uses: slackapi/slack-github-action@v1.18.0
+        with:
+          channel-id: 'github-actions'
+          slack-message: "Test result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
