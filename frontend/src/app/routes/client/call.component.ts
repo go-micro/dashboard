@@ -26,6 +26,7 @@ export class ClientCallComponent implements OnInit {
   version: string = '';
   endpoint: string = '';
   timeout = 10;
+  metadata: any = undefined;
   request: any = undefined;
   response: any = undefined;
 
@@ -94,6 +95,7 @@ export class ClientCallComponent implements OnInit {
       service: this.service,
       version: this.version,
       endpoint: this.endpoint,
+      metadata: JSON.stringify(this.metadata),
       request: JSON.stringify(this.request),
       timeout: this.timeout
     });
@@ -139,6 +141,14 @@ export class ClientCallComponent implements OnInit {
       }
     } else {
       this.updateRequestPayload(endpoint.request);
+    }
+  }
+
+  metadataChanged(metadata: string) {
+    try {
+      this.metadata = eval(`(${metadata})`);
+    } catch (e) {
+      // SyntaxError
     }
   }
 

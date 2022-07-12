@@ -992,7 +992,7 @@ export class LoginRequest implements ILoginRequest {
         data = typeof data === 'object' ? data : {};
         data["password"] = this.password;
         data["username"] = this.username;
-        return data; 
+        return data;
     }
 }
 
@@ -1029,7 +1029,7 @@ export class LoginResponse implements ILoginResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["token"] = this.token;
-        return data; 
+        return data;
     }
 }
 
@@ -1065,7 +1065,7 @@ export class ProfileResponse implements IProfileResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
-        return data; 
+        return data;
     }
 }
 
@@ -1076,6 +1076,7 @@ export interface IProfileResponse {
 export class CallRequest implements ICallRequest {
     endpoint!: string;
     request?: string | undefined;
+    metadata?: string | undefined;
     service!: string;
     timeout?: number | undefined;
     version?: string | undefined;
@@ -1093,6 +1094,7 @@ export class CallRequest implements ICallRequest {
         if (_data) {
             this.endpoint = _data["endpoint"];
             this.request = _data["request"];
+            this.metadata = _data["metadata"];
             this.service = _data["service"];
             this.timeout = _data["timeout"];
             this.version = _data["version"];
@@ -1110,15 +1112,17 @@ export class CallRequest implements ICallRequest {
         data = typeof data === 'object' ? data : {};
         data["endpoint"] = this.endpoint;
         data["request"] = this.request;
+        data["metadata"] = this.metadata;
         data["service"] = this.service;
         data["timeout"] = this.timeout;
         data["version"] = this.version;
-        return data; 
+        return data;
     }
 }
 
 export interface ICallRequest {
     endpoint: string;
+    metadata?: string;
     request?: string | undefined;
     service: string;
     timeout?: number | undefined;
@@ -1162,7 +1166,7 @@ export class HealthCheckRequest implements IHealthCheckRequest {
         data["service"] = this.service;
         data["timeout"] = this.timeout;
         data["version"] = this.version;
-        return data; 
+        return data;
     }
 }
 
@@ -1176,6 +1180,7 @@ export interface IHealthCheckRequest {
 export class PublishRequest implements IPublishRequest {
     message!: string;
     topic!: string;
+    metadata?: string | undefined;
 
     constructor(data?: IPublishRequest) {
         if (data) {
@@ -1189,6 +1194,7 @@ export class PublishRequest implements IPublishRequest {
     init(_data?: any) {
         if (_data) {
             this.message = _data["message"];
+            this.metadata = _data["metadata"];
             this.topic = _data["topic"];
         }
     }
@@ -1204,13 +1210,15 @@ export class PublishRequest implements IPublishRequest {
         data = typeof data === 'object' ? data : {};
         data["message"] = this.message;
         data["topic"] = this.topic;
-        return data; 
+        data["metadata"] = this.metadata;
+        return data;
     }
 }
 
 export interface IPublishRequest {
     message: string;
     topic: string;
+    metadata?: string | undefined;
 }
 
 export class GetNodeListResponse implements IGetNodeListResponse {
@@ -1249,7 +1257,7 @@ export class GetNodeListResponse implements IGetNodeListResponse {
             for (let item of this.services)
                 data["services"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -1293,7 +1301,7 @@ export class GetServiceDetailResponse implements IGetServiceDetailResponse {
             for (let item of this.services)
                 data["services"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -1337,7 +1345,7 @@ export class GetServiceHandlersResponse implements IGetServiceHandlersResponse {
             for (let item of this.handlers)
                 data["handlers"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -1384,7 +1392,7 @@ export class GetServiceListResponse implements IGetServiceListResponse {
             for (let item of this.services)
                 data["services"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -1428,7 +1436,7 @@ export class GetServiceSubscribersResponse implements IGetServiceSubscribersResp
             for (let item of this.subscribers)
                 data["subscribers"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -1491,7 +1499,7 @@ export class RegistryEndpoint implements IRegistryEndpoint {
         data["request"] = this.request ? this.request.toJSON() : <any>undefined;
         data["response"] = this.response ? this.response.toJSON() : <any>undefined;
         data["stream"] = this.stream;
-        return data; 
+        return data;
     }
 }
 
@@ -1549,7 +1557,7 @@ export class RegistryNode implements IRegistryNode {
                     (<any>data["metadata"])[key] = this.metadata[key];
             }
         }
-        return data; 
+        return data;
     }
 }
 
@@ -1608,7 +1616,7 @@ export class RegistryNodeDetail implements IRegistryNodeDetail {
             }
         }
         data["version"] = this.version;
-        return data; 
+        return data;
     }
 }
 
@@ -1698,7 +1706,7 @@ export class RegistryService implements IRegistryService {
                 data["subscribers"].push(item.toJSON());
         }
         data["version"] = this.version;
-        return data; 
+        return data;
     }
 }
 
@@ -1750,7 +1758,7 @@ export class RegistryServiceNodes implements IRegistryServiceNodes {
             for (let item of this.nodes)
                 data["nodes"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -1798,7 +1806,7 @@ export class RegistryServiceSummary implements IRegistryServiceSummary {
             for (let item of this.versions)
                 data["versions"].push(item);
         }
-        return data; 
+        return data;
     }
 }
 
@@ -1849,7 +1857,7 @@ export class RegistryValue implements IRegistryValue {
             for (let item of this.values)
                 data["values"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 }
 
@@ -1890,7 +1898,7 @@ export class GetSummaryResponse implements IGetSummaryResponse {
         data = typeof data === 'object' ? data : {};
         data["registry"] = this.registry ? this.registry.toJSON() : <any>undefined;
         data["services"] = this.services ? this.services.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 }
 
@@ -1938,7 +1946,7 @@ export class RegistrySummary implements IRegistrySummary {
                 data["addrs"].push(item);
         }
         data["type"] = this.type;
-        return data; 
+        return data;
     }
 }
 
@@ -1978,7 +1986,7 @@ export class ServicesSummary implements IServicesSummary {
         data = typeof data === 'object' ? data : {};
         data["count"] = this.count;
         data["nodes_count"] = this.nodes_count;
-        return data; 
+        return data;
     }
 }
 
