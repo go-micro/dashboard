@@ -26,6 +26,7 @@ export class ClientPublishComponent implements OnInit {
   version: string = '';
   topic: string = '';
   timeout = 10;
+  metadata: any = undefined;
   request: any = undefined;
   response: any = undefined;
 
@@ -92,6 +93,7 @@ export class ClientPublishComponent implements OnInit {
     this.response = undefined;
     var input = new PublishRequest({
       topic: this.topic,
+      metadata: JSON.stringify(this.metadata),
       message: JSON.stringify(this.request)
     });
     this.clientService
@@ -136,6 +138,14 @@ export class ClientPublishComponent implements OnInit {
       }
     } else {
       this.updateRequestPayload(endpoint.request);
+    }
+  }
+
+  metadataChanged(metadata: string) {
+    try {
+      this.metadata = eval(`(${metadata})`);
+    } catch (e) {
+      // SyntaxError
     }
   }
 

@@ -3,6 +3,7 @@ package client
 import (
 	"context"
 	"encoding/json"
+	"go-micro.dev/v4/metadata"
 	"sync"
 	"time"
 
@@ -48,7 +49,10 @@ func (s *service) RegisterRoute(router gin.IRoutes) {
 // @Failure 500		{object}	string
 // @Router /api/client/call [post]
 func (s *service) Call(ctx *gin.Context) {
-	var req callRequest
+	var (
+		req  callRequest
+		mCtx = context.Context(ctx)
+	)
 	if err := ctx.ShouldBindJSON(&req); nil != err {
 		ctx.Render(400, render.String{Format: err.Error()})
 		return
@@ -59,6 +63,14 @@ func (s *service) Call(ctx *gin.Context) {
 			ctx.Render(400, render.String{Format: "parse request failed: %s", Data: []interface{}{err.Error()}})
 			return
 		}
+	}
+	if len(req.Metadata) > 0 {
+		md := metadata.Metadata{}
+		if err := json.Unmarshal([]byte(req.Metadata), &md); err != nil {
+			ctx.Render(400, render.String{Format: "parse metadata failed: %s", Data: []interface{}{err.Error()}})
+			return
+		}
+		mCtx = metadata.NewContext(mCtx, md)
 	}
 	services, err := s.registry.GetService(req.Service)
 	if err != nil {
@@ -90,7 +102,7 @@ func (s *service) Call(ctx *gin.Context) {
 	if req.Timeout > 0 {
 		callOpts = append(callOpts, client.WithRequestTimeout(time.Duration(req.Timeout)*time.Second))
 	}
-	if err := c.Call(context.TODO(), client.NewRequest(req.Service, req.Endpoint, callReq, requestOpts...), &resp, callOpts...); err != nil {
+	if err := c.Call(mCtx, client.NewRequest(req.Service, req.Endpoint, callReq, requestOpts...), &resp, callOpts...); err != nil {
 		if merr := errors.Parse(err.Error()); merr != nil {
 			ctx.JSON(200, gin.H{"success": false, "error": merr})
 		} else {
@@ -167,7 +179,10 @@ func (s *service) HealthCheck(ctx *gin.Context) {
 // @Failure 500		{object}	string
 // @Router /api/client/publish [post]
 func (s *service) Publish(ctx *gin.Context) {
-	var req publishRequest
+	var (
+		req  publishRequest
+		mCtx = context.Context(ctx)
+	)
 	if err := ctx.ShouldBindJSON(&req); nil != err {
 		ctx.Render(400, render.String{Format: err.Error()})
 		return
@@ -179,7 +194,15 @@ func (s *service) Publish(ctx *gin.Context) {
 			return
 		}
 	}
-	err := s.client.Publish(ctx, client.NewMessage(req.Topic, msg, client.WithMessageContentType("application/json")))
+	if len(req.Metadata) > 0 {
+		md := metadata.Metadata{}
+		if err := json.Unmarshal([]byte(req.Metadata), &md); err != nil {
+			ctx.Render(400, render.String{Format: "parse metadata failed: %s", Data: []interface{}{err.Error()}})
+			return
+		}
+		mCtx = metadata.NewContext(mCtx, md)
+	}
+	err := s.client.Publish(mCtx, client.NewMessage(req.Topic, msg, client.WithMessageContentType("application/json")))
 	if err != nil {
 		if merr := errors.Parse(err.Error()); merr != nil {
 			ctx.JSON(200, gin.H{"success": false, "error": merr})

@@ -61,6 +61,18 @@
         <nz-form-control>
           <textarea
             nz-input
+            name="metadata"
+            placeholder="Request metadata"
+            [ngModel]="metadata | json"
+            [nzAutosize]="{ minRows: 2, maxRows: 5 }"
+            (ngModelChange)="metadataChanged($event)"
+          ></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <textarea
+            nz-input
             name="request"
             placeholder="Request payload"
             [ngModel]="request | json"
