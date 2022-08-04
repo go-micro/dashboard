@@ -26,25 +26,37 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.IMAGE_NAME }}
+          tags: |
+            # set latest tag for master branch
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'master') }}
+            # minimal
+            type=pep440,pattern={{version}}
+      
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # Build and push Docker image with Buildx (don't push on PR)
-      # https://github.com/docker/build-push-action
-      - name: Build and push Docker image
+      # https://github.com/docker/build-push-action      
+      - name: Build and push Docker Image
         id: build-and-push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}      
+          labels: ${{ steps.meta.outputs.labels }}
       
       - name: Notify of docker publish failure
         if: failure()
