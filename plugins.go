@@ -15,4 +15,6 @@ import (
 	_ "github.com/go-micro/plugins/v4/registry/nacos"
 	_ "github.com/go-micro/plugins/v4/registry/nats"
 	_ "github.com/go-micro/plugins/v4/registry/zookeeper"
+
+	_ "github.com/go-micro/plugins/v4/transport/grpc"
 )

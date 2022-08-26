@@ -10,8 +10,8 @@ import (
 	"github.com/go-micro/dashboard/handler/route"
 	"github.com/go-micro/dashboard/handler/statistics"
 	"github.com/go-micro/dashboard/web"
+	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"go-micro.dev/v4/client"
 )
 

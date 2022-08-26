@@ -26,6 +26,8 @@ definitions:
     properties:
       endpoint:
         type: string
+      metadata:
+        type: string
       request:
         type: string
       service:
@@ -56,6 +58,8 @@ definitions:
   client.publishRequest:
     properties:
       message:
+        type: string
+      metadata:
         type: string
       topic:
         type: string
@@ -110,8 +114,10 @@ definitions:
         type: string
       request:
         $ref: '#/definitions/registry.registryValue'
+        type: object
       response:
         $ref: '#/definitions/registry.registryValue'
+        type: object
       stream:
         type: boolean
     required:
@@ -213,8 +219,10 @@ definitions:
     properties:
       registry:
         $ref: '#/definitions/statistics.registrySummary'
+        type: object
       services:
         $ref: '#/definitions/statistics.servicesSummary'
+        type: object
     type: object
   statistics.registrySummary:
     properties:
@@ -235,6 +243,7 @@ definitions:
 info:
   contact: {}
   description: go micro dashboard restful-api
+  license: {}
   termsOfService: http://swagger.io/terms/
   title: Go Micro Dashboard
   version: 1.4.0
