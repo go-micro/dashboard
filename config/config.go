@@ -4,7 +4,7 @@ import "time"
 
 const (
 	Name    = "go.micro.dashboard"
-	Version = "1.4.0"
+	Version = "1.4.3"
 )
 
 const (
