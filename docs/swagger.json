@@ -5,6 +5,7 @@
         "title": "Go Micro Dashboard",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {},
+        "license": {},
         "version": "1.4.0"
     },
     "basePath": "/",
@@ -581,6 +582,9 @@
                 "endpoint": {
                     "type": "string"
                 },
+                "metadata": {
+                    "type": "string"
+                },
                 "request": {
                     "type": "string"
                 },
@@ -625,6 +629,9 @@
             ],
             "properties": {
                 "message": {
+                    "type": "string"
+                },
+                "metadata": {
                     "type": "string"
                 },
                 "topic": {
@@ -707,9 +714,11 @@
                     "type": "string"
                 },
                 "request": {
+                    "type": "object",
                     "$ref": "#/definitions/registry.registryValue"
                 },
                 "response": {
+                    "type": "object",
                     "$ref": "#/definitions/registry.registryValue"
                 },
                 "stream": {
@@ -858,9 +867,11 @@
             "type": "object",
             "properties": {
                 "registry": {
+                    "type": "object",
                     "$ref": "#/definitions/statistics.registrySummary"
                 },
                 "services": {
+                    "type": "object",
                     "$ref": "#/definitions/statistics.servicesSummary"
                 }
             }
