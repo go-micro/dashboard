@@ -26,6 +26,8 @@ definitions:
     properties:
       endpoint:
         type: string
+      metadata:
+        type: string
       request:
         type: string
       service:
@@ -56,6 +58,8 @@ definitions:
   client.publishRequest:
     properties:
       message:
+        type: string
+      metadata:
         type: string
       topic:
         type: string

@@ -581,6 +581,9 @@
                 "endpoint": {
                     "type": "string"
                 },
+                "metadata": {
+                    "type": "string"
+                },
                 "request": {
                     "type": "string"
                 },
@@ -625,6 +628,9 @@
             ],
             "properties": {
                 "message": {
+                    "type": "string"
+                },
+                "metadata": {
                     "type": "string"
                 },
                 "topic": {
