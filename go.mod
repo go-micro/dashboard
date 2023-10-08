@@ -9,6 +9,7 @@ require (
 	github.com/go-micro/plugins/v4/broker/kafka v1.2.0
 	github.com/go-micro/plugins/v4/broker/mqtt v1.2.0
 	github.com/go-micro/plugins/v4/broker/nats v1.2.0
+	github.com/go-micro/plugins/v4/broker/nsq v1.2.0
 	github.com/go-micro/plugins/v4/broker/rabbitmq v1.2.0
 	github.com/go-micro/plugins/v4/broker/redis v1.2.0
 	github.com/go-micro/plugins/v4/client/grpc v1.2.0
@@ -139,6 +140,7 @@ require (
 	github.com/nats-io/nats.go v1.20.0 // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/nsqio/go-nsq v1.0.8 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
 	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7 // indirect
 	github.com/opentracing/opentracing-go v1.2.1-0.20220228012449-10b1cf09e00b // indirect
