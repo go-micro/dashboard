@@ -8,7 +8,7 @@ RUN npm install -g @angular/cli && \
     npm install && \
     npm run build
 
-FROM golang:1.18 as backend-builder
+FROM golang:1.20 as backend-builder
 
 WORKDIR /micro
 
